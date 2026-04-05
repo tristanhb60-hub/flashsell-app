@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlashSell.ai — Vendez avec l'IA</title>
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#0A0A0F" />
+  <meta name="description" content="Transformez vos objets en cash avec l'IA" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet" />
+
+  <!-- React + Babel -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #007AFF;
+      --blue-dim: rgba(0,122,255,0.15);
+      --blue-border: rgba(0,122,255,0.3);
+      --blue-glow: rgba(0,122,255,0.25);
+      --cyan: #00D4FF;
+      --bg: #080810;
+      --surface: rgba(255,255,255,0.04);
+      --surface-hover: rgba(255,255,255,0.07);
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(255,255,255,0.15);
+      --text: #F0F0F5;
+      --text-muted: rgba(240,240,245,0.45);
+      --text-dim: rgba(240,240,245,0.25);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-lg: 24px;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    #root { min-height: 100vh; }
+
+    /* ── Background mesh ── */
+    .bg-mesh {
+      background:
+        radial-gradient(ellipse 70% 50% at 15% 40%, rgba(0,122,255,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 85% 15%, rgba(0,212,255,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 60% at 55% 85%, rgba(0,50,180,0.1) 0%, transparent 55%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    /* ── Glass ── */
+    .glass {
+      background: var(--surface);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border);
+    }
+    .glass-strong {
+      background: rgba(12,12,22,0.85);
+      backdrop-filter: blur(48px);
+      -webkit-backdrop-filter: blur(48px);
+      border: 1px solid var(--border-hover);
+    }
+
+    /* ── Typography ── */
+    .display { font-family: var(--font-display); }
+
+    .gradient-text {
+      background: linear-gradient(125deg, #fff 0%, #60AAFF 45%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-primary:hover { background: #0066D6; transform: translateY(-1px); box-shadow: 0 8px 32px var(--blue-glow); }
+    .btn-primary:active { transform: translateY(0) scale(0.98); }
+
+    .btn-ghost {
+      background: var(--surface);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-ghost:hover { background: var(--surface-hover); border-color: var(--border-hover); color: var(--text); }
+
+    /* ── Tags ── */
+    .tag {
+      display: inline-flex; align-items: center;
+      padding: 4px 12px;
+      background: var(--blue-dim);
+      border: 1px solid var(--blue-border);
+      border-radius: 100px;
+      font-size: 12px; font-weight: 500;
+      color: #60AAFF;
+      letter-spacing: 0.01em;
+    }
+
+    .label-upper {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue);
+    }
+
+    /* ── Inputs ── */
+    .input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 10px 14px;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .input:focus { border-color: rgba(0,122,255,0.5); background: rgba(0,122,255,0.05); }
+    .input::placeholder { color: var(--text-dim); }
+
+    /* ── Animations ── */
+    @keyframes spin-cw  { to { transform: rotate(360deg); } }
+    @keyframes spin-ccw { to { transform: rotate(-360deg); } }
+    @keyframes float    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes fadeUp   { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+    @keyframes pulse-ring {
+      0%   { box-shadow: 0 0 0 0 rgba(0,122,255,0.4); }
+      70%  { box-shadow: 0 0 0 12px rgba(0,122,255,0); }
+      100% { box-shadow: 0 0 0 0 rgba(0,122,255,0); }
+    }
+    @keyframes shimmer-bg {
+      0%   { background-position: -400px 0; }
+      100% { background-position: 400px 0; }
+    }
+
+    .fade-up { animation: fadeUp 0.45s cubic-bezier(0.4,0,0.2,1) forwards; }
+    .fade-up-1 { animation: fadeUp 0.45s 0.08s cubic-bezier(0.4,0,0.2,1) both; }
+    .fade-up-2 { animation: fadeUp 0.45s 0.16s cubic-bezier(0.4,0,0.2,1) both; }
+    .fade-up-3 { animation: fadeUp 0.45s 0.24s cubic-bezier(0.4,0,0.2,1) both; }
+    .fade-up-4 { animation: fadeUp 0.45s 0.32s cubic-bezier(0.4,0,0.2,1) both; }
+
+    .float { animation: float 3.5s ease-in-out infinite; }
+
+    /* ── Drop zone ── */
+    .drop-zone { transition: all 0.2s ease; }
+    .drop-zone.active {
+      border-color: var(--blue) !important;
+      background: rgba(0,122,255,0.06) !important;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+
+    /* ── Nav ── */
+    .nav {
+      position: sticky; top: 0; z-index: 30;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 24px;
+      background: rgba(8,8,16,0.7);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Price cards ── */
+    .price-card {
+      flex: 1;
+      padding: 14px 10px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .price-card.featured {
+      background: var(--blue-dim);
+      border-color: var(--blue-border);
+    }
+
+    /* ── Modal backdrop ── */
+    .backdrop {
+      position: fixed; inset: 0; z-index: 50;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px;
+    }
+
+    /* ── Glow dot ── */
+    .glow-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #007AFF;
+      animation: pulse-ring 2s infinite;
+    }
+
+    /* ── Success banner ── */
+    .success-banner {
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      background: rgba(0,200,100,0.12);
+      border: 1px solid rgba(0,200,100,0.3);
+      color: #00C864;
+      font-weight: 600;
+      text-align: center;
+      font-size: 14px;
+    }
+    .error-banner {
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      background: rgba(255,59,48,0.12);
+      border: 1px solid rgba(255,59,48,0.25);
+      color: #FF6B6B;
+      font-size: 13px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useCallback, useRef, useEffect } = React;
+
+/* ═══════════════════════════════════════
+   ICONS
+═══════════════════════════════════════ */
+const IconSpark = ({size=20,color='currentColor'}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+    <path d="M12 2l1.5 7.5L21 11l-7.5 1.5L12 20l-1.5-7.5L3 11l7.5-1.5L12 2z"/>
+  </svg>
+);
+const IconGoogle = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24">
+    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+  </svg>
+);
+const IconUpload = () => (
+  <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(0,122,255,0.5)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="16 16 12 12 8 16"/>
+    <line x1="12" y1="12" x2="12" y2="21"/>
+    <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/>
+  </svg>
+);
+const IconCheck = ({size=16}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#007AFF" strokeWidth="2.5" strokeLinecap="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </svg>
+);
+const IconTag = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
+    <line x1="7" y1="7" x2="7.01" y2="7"/>
+  </svg>
+);
+const IconX = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+);
+const IconCrown = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M2 19l2-10 5 5 3-8 3 8 5-5 2 10H2z"/>
+  </svg>
+);
+
+/* ═══════════════════════════════════════
+   AI LOADER
+═══════════════════════════════════════ */
+function AILoader() {
+  const msgs = [
+    'Analyse visuelle en cours…',
+    'Identification de l\'objet…',
+    'Rédaction du copywriting…',
+    'Estimation du prix marché…',
+  ];
+  const [step, setStep] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setStep(s => Math.min(s+1, msgs.length-1)), 900);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div style={{textAlign:'center', padding:'48px 24px'}}>
+      <div style={{position:'relative', display:'inline-flex', alignItems:'center', justifyContent:'center', width:88, height:88, marginBottom:24}}>
+        <div style={{position:'absolute', width:88, height:88, borderRadius:'50%', border:'1.5px solid rgba(0,122,255,0.2)', borderTopColor:'#007AFF', animation:'spin-cw 1s linear infinite'}}/>
+        <div style={{position:'absolute', width:66, height:66, borderRadius:'50%', border:'1.5px solid rgba(0,212,255,0.1)', borderBottomColor:'#00D4FF', animation:'spin-ccw 1.4s linear infinite'}}/>
+        <div style={{position:'absolute', width:44, height:44, borderRadius:'50%', border:'1.5px solid rgba(0,122,255,0.08)', borderLeftColor:'rgba(0,122,255,0.4)', animation:'spin-cw 2s linear infinite'}}/>
+        <IconSpark size={18} color="#007AFF"/>
+      </div>
+      <p style={{fontFamily:'var(--font-display)', fontWeight:600, fontSize:16, color:'var(--text)', marginBottom:8}}>
+        L'IA analyse votre objet
+      </p>
+      <p style={{fontSize:13, color:'var(--text-muted)', minHeight:20, transition:'all 0.4s'}}>{msgs[step]}</p>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   RESULT CARD
+═══════════════════════════════════════ */
+function ResultCard({ result }) {
+  const [copied, setCopied] = useState(null);
+  const copy = (text, key) => {
+    navigator.clipboard?.writeText(text).catch(()=>{});
+    setCopied(key);
+    setTimeout(() => setCopied(null), 1800);
+  };
+  return (
+    <div style={{display:'flex', flexDirection:'column', gap:12}}>
+      {/* Title */}
+      <div className="glass fade-up-1" style={{borderRadius:'var(--radius)', padding:'20px 24px'}}>
+        <p className="label-upper" style={{marginBottom:10}}>✦ Titre optimisé</p>
+        <p style={{fontFamily:'var(--font-display)', fontSize:20, fontWeight:700, color:'var(--text)', lineHeight:1.3, marginBottom:12}}>
+          {result.title}
+        </p>
+        <button className="btn-ghost" style={{fontSize:12, padding:'5px 14px'}} onClick={() => copy(result.title,'title')}>
+          {copied==='title' ? '✓ Copié !' : 'Copier'}
+        </button>
+      </div>
+
+      {/* Description */}
+      <div className="glass fade-up-2" style={{borderRadius:'var(--radius)', padding:'20px 24px'}}>
+        <p className="label-upper" style={{marginBottom:10}}>✍ Description persuasive</p>
+        <p style={{fontSize:14, lineHeight:1.75, color:'rgba(240,240,245,0.7)', marginBottom:12}}>
+          {result.description}
+        </p>
+        <button className="btn-ghost" style={{fontSize:12, padding:'5px 14px'}} onClick={() => copy(result.description,'desc')}>
+          {copied==='desc' ? '✓ Copié !' : 'Copier'}
+        </button>
+      </div>
+
+      {/* Price */}
+      <div className="glass fade-up-3" style={{borderRadius:'var(--radius)', padding:'20px 24px'}}>
+        <p className="label-upper" style={{marginBottom:14}}>💰 Estimation de prix</p>
+        <div style={{display:'flex', gap:10}}>
+          {[
+            {label:'Bas', val:result.price?.low, featured:false},
+            {label:'Recommandé', val:result.price?.mid, featured:true},
+            {label:'Haut', val:result.price?.high, featured:false},
+          ].map(p => (
+            <div key={p.label} className={`price-card${p.featured?' featured':''}`}>
+              <div style={{fontFamily:'var(--font-display)', fontSize:22, fontWeight:700, color: p.featured ? '#007AFF' : 'var(--text)'}}>
+                {p.val}€
+              </div>
+              <div style={{fontSize:11, marginTop:4, color: p.featured ? 'rgba(0,122,255,0.65)' : 'var(--text-muted)'}}>
+                {p.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Keywords */}
+      <div className="glass fade-up-4" style={{borderRadius:'var(--radius)', padding:'20px 24px'}}>
+        <p className="label-upper" style={{marginBottom:12, display:'flex', alignItems:'center', gap:6}}>
+          <IconTag/> Mots-clés Vinted / eBay
+        </p>
+        <div style={{display:'flex', flexWrap:'wrap', gap:8}}>
+          {(result.keywords||[]).map(kw => (
+            <span key={kw} className="tag" style={{cursor:'pointer'}} onClick={() => copy(kw,'kw-'+kw)}>
+              {copied==='kw-'+kw ? '✓' : '#'}{kw}
+            </span>
+          ))}
+        </div>
+        <p style={{fontSize:11, color:'var(--text-dim)', marginTop:10}}>
+          Cliquez sur un tag pour le copier
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   PAYWALL MODAL
+═══════════════════════════════════════ */
+function PaywallModal({ onClose, onPromoSuccess }) {
+  const [promo, setPromo] = useState('');
+  const [status, setStatus] = useState(null); // 'success' | 'error'
+
+  const handlePromo = () => {
+    if (promo.toLowerCase().trim() === 'flayc0') {
+      setStatus('success');
+      setTimeout(() => { onPromoSuccess(); onClose(); }, 2200);
+    } else {
+      setStatus('error');
+    }
+  };
+
+  const perks = ['Analyses IA illimitées', 'Copywriting premium génératif', 'Estimation multi-plateformes', 'Téléchargement des fiches produit', 'Support prioritaire'];
+
+  return (
+    <div className="backdrop" onClick={e => e.target===e.currentTarget && onClose()}>
+      <div className="glass-strong fade-up" style={{borderRadius:'var(--radius-lg)', padding:'36px 32px', maxWidth:420, width:'100%'}}>
+        {/* Logo pulse */}
+        <div style={{textAlign:'center', marginBottom:24}}>
+          <div style={{width:64, height:64, borderRadius:20, background:'#007AFF', display:'inline-flex', alignItems:'center', justifyContent:'center', animation:'pulse-ring 2s infinite', marginBottom:16}}>
+            <IconCrown/>
+          </div>
+          <p style={{fontFamily:'var(--font-display)', fontSize:22, fontWeight:700, color:'var(--text)', marginBottom:6}}>
+            Passez à FlashSell Pro
+          </p>
+          <p style={{fontSize:13, color:'var(--text-muted)'}}>Analyses illimitées · Zéro friction</p>
+        </div>
+
+        {/* Price block */}
+        <div className="glass" style={{borderRadius:'var(--radius)', padding:'20px 24px', marginBottom:20}}>
+          <div style={{display:'flex', alignItems:'baseline', justifyContent:'center', gap:4, marginBottom:16}}>
+            <span style={{fontFamily:'var(--font-display)', fontSize:46, fontWeight:800, color:'#007AFF', lineHeight:1}}>9,99€</span>
+            <span style={{fontSize:14, color:'var(--text-muted)'}}>/mois</span>
+          </div>
+          <div style={{display:'flex', flexDirection:'column', gap:8}}>
+            {perks.map(p => (
+              <div key={p} style={{display:'flex', alignItems:'center', gap:8, fontSize:13, color:'rgba(240,240,245,0.7)'}}>
+                <IconCheck size={14}/> {p}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Promo */}
+        <div style={{marginBottom:16}}>
+          <p style={{fontSize:12, color:'var(--text-dim)', marginBottom:8}}>Vous avez un code promo ?</p>
+          <div style={{display:'flex', gap:8}}>
+            <input
+              className="input"
+              type="text"
+              value={promo}
+              onChange={e => setPromo(e.target.value)}
+              onKeyDown={e => e.key==='Enter' && handlePromo()}
+              placeholder="ex: FLASHSELL50"
+              style={{flex:1}}
+            />
+            <button
+              className="btn-ghost"
+              onClick={handlePromo}
+              style={{padding:'0 16px', whiteSpace:'nowrap', flexShrink:0}}
+            >Valider</button>
+          </div>
+
+          {status==='success' && (
+            <div className="success-banner fade-up" style={{marginTop:12}}>
+              🎉 1 MOIS GRATUIT ACTIVÉ !
+            </div>
+          )}
+          {status==='error' && (
+            <div className="error-banner fade-up" style={{marginTop:10}}>
+              Code invalide. Réessayez ou contactez le support.
+            </div>
+          )}
+        </div>
+
+        <button className="btn-primary" style={{width:'100%', padding:'14px', fontSize:15, borderRadius:'var(--radius)'}}>
+          Commencer l'abonnement →
+        </button>
+        <button onClick={onClose} style={{display:'block', width:'100%', marginTop:12, background:'none', border:'none', color:'var(--text-dim)', fontSize:13, cursor:'pointer', padding:8}}>
+          Continuer sans Pro
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════
+   MAIN APP
+═══════════════════════════════════════ */
+function App() {
+  const [user, setUser]           = useState(null);
+  const [image, setImage]         = useState(null);   // base64 data URL
+  const [loading, setLoading]     = useState(false);
+  const [result, setResult]       = useState(null);
+  const [usageCount, setUsageCount] = useState(0);
+  const [showPaywall, setShowPaywall] = useState(false);
+  const [isPro, setIsPro]         = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [error, setError]         = useState(null);
+  const fileRef = useRef(null);
+
+  /* ─── Simulated Google Login ─── */
+  const handleLogin = () => setUser({ name: 'Alexandre Martin', initials: 'AM', email: 'alexandre@gmail.com' });
+  const handleLogout = () => setUser(null);
+
+  /* ─── File handling ─── */
+  const processFile = useCallback((file) => {
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = e => { setImage(e.target.result); setResult(null); setError(null); };
+    reader.readAsDataURL(file);
+  }, []);
+
+  const onDragOver  = useCallback(e => { e.preventDefault(); setIsDragging(true); }, []);
+  const onDragLeave = useCallback(() => setIsDragging(false), []);
+  const onDrop      = useCallback(e => { e.preventDefault(); setIsDragging(false); processFile(e.dataTransfer.files[0]); }, [processFile]);
+
+  /* ─── Analyze ─── */
+  const analyze = async () => {
+    if (!image) return;
+    if (usageCount >= 1 && !isPro) { setShowPaywall(true); return; }
+
+    setLoading(true); setResult(null); setError(null);
+
+    try {
+      const base64    = image.split(',')[1];
+      const mediaType = image.split(';')[0].split(':')[1] || 'image/jpeg';
+
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{
+            role: 'user',
+            content: [
+              { type: 'image', source: { type: 'base64', media_type: mediaType, data: base64 } },
+              { type: 'text', text: `Tu es un expert en vente en ligne et copywriting premium. Analyse cette image et génère une fiche produit optimisée pour Vinted et eBay.
+Réponds UNIQUEMENT en JSON valide (aucun markdown, aucune balise, aucun commentaire). Structure exacte :
+{
+  "title": "<titre accrocheur, SEO, max 65 caractères>",
+  "description": "<2-3 phrases de copywriting haut de gamme qui donnent envie d'acheter. Mentionne l'état, le style, la rareté si pertinent>",
+  "price": { "low": <integer>, "mid": <integer>, "high": <integer> },
+  "keywords": ["<mot1>", "<mot2>", "<mot3>", "<mot4>", "<mot5>", "<mot6>", "<mot7>", "<mot8>"]
+}
+Les prix sont en euros entiers, réalistes pour le marché de la revente. Si l'image n'est pas claire, fais une estimation raisonnée de ce que tu vois.` }
+            ]
+          }]
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error?.message || 'Erreur API');
+
+      const raw = (data.content||[]).find(b => b.type==='text')?.text || '';
+      const clean = raw.replace(/```json|```/g,'').trim();
+      const parsed = JSON.parse(clean);
+      setResult(parsed);
+      setUsageCount(c => c+1);
+
+    } catch(err) {
+      console.error(err);
+      setError('Analyse échouée. Vérifiez votre connexion et réessayez.');
+    }
+
+    setLoading(false);
+  };
+
+  /* ─── Features list ─── */
+  const features = [
+    { icon: '🎯', title: 'Titre SEO', desc: 'Optimisé pour être trouvé' },
+    { icon: '✍️', title: 'Copywriting', desc: 'Texte qui convertit' },
+    { icon: '💰', title: 'Prix juste', desc: 'Estimation marché IA' },
+    { icon: '🏷️', title: 'Mots-clés', desc: 'Vinted & eBay ready' },
+  ];
+
+  return (
+    <div className="bg-mesh">
+      {/* ══ NAV ══ */}
+      <nav className="nav">
+        <div style={{display:'flex', alignItems:'center', gap:10}}>
+          <div style={{width:34, height:34, borderRadius:10, background:'linear-gradient(135deg,#007AFF,#00D4FF)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:16, boxShadow:'0 0 20px rgba(0,122,255,0.4)'}}>⚡</div>
+          <span style={{fontFamily:'var(--font-display)', fontWeight:700, fontSize:17, color:'var(--text)'}}>
+            FlashSell<span style={{color:'#007AFF'}}>.ai</span>
+          </span>
+          {isPro && (
+            <span className="tag" style={{fontSize:10, padding:'2px 8px', gap:4}}>
+              <IconCrown/> PRO
+            </span>
+          )}
+        </div>
+
+        <div style={{display:'flex', alignItems:'center', gap:10}}>
+          {!user ? (
+            <button className="btn-ghost" onClick={handleLogin} style={{padding:'7px 14px'}}>
+              <IconGoogle/> Se connecter
+            </button>
+          ) : (
+            <div style={{display:'flex', alignItems:'center', gap:10}}>
+              {!isPro && (
+                <button className="btn-ghost" onClick={() => setShowPaywall(true)} style={{fontSize:12, padding:'6px 12px', color:'#007AFF', borderColor:'var(--blue-border)'}}>
+                  Passer Pro
+                </button>
+              )}
+              <div
+                onClick={handleLogout}
+                style={{width:34, height:34, borderRadius:'50%', background:'linear-gradient(135deg,#007AFF,#0044CC)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:700, color:'#fff', cursor:'pointer'}}
+                title="Cliquer pour se déconnecter"
+              >
+                {user.initials}
+              </div>
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* ══ MAIN ══ */}
+      <div style={{maxWidth:640, margin:'0 auto', padding:'48px 16px 80px'}}>
+
+        {/* ─── Hero ─── */}
+        <div style={{textAlign:'center', marginBottom:48}}>
+          <div style={{display:'inline-flex', alignItems:'center', gap:8, padding:'6px 16px', borderRadius:100, background:'rgba(0,122,255,0.1)', border:'1px solid rgba(0,122,255,0.2)', marginBottom:24}}>
+            <div className="glow-dot"/>
+            <span style={{fontSize:12, fontWeight:600, color:'#60AAFF', letterSpacing:'0.05em'}}>Propulsé par Claude AI</span>
+          </div>
+
+          <h1 style={{fontFamily:'var(--font-display)', fontSize:'clamp(32px,7vw,56px)', fontWeight:800, lineHeight:1.1, marginBottom:18, letterSpacing:'-0.02em'}}>
+            <span className="gradient-text">Transformez vos objets</span>
+            <br/>
+            <span style={{color:'var(--text)'}}>en cash avec l'IA</span>
+          </h1>
+
+          <p style={{fontSize:'clamp(15px,2vw,18px)', color:'var(--text-muted)', maxWidth:400, margin:'0 auto', lineHeight:1.6}}>
+            Photographiez n'importe quoi. L'IA génère le titre, la description et le prix parfaits en quelques secondes.
+          </p>
+        </div>
+
+        {/* ─── Upload or results ─── */}
+        {!image ? (
+          <>
+            {/* Drop zone */}
+            <div
+              className={`drop-zone${isDragging?' active':''}`}
+              style={{border:'2px dashed rgba(255,255,255,0.1)', borderRadius:'var(--radius-lg)', padding:'56px 24px', textAlign:'center', cursor:'pointer', marginBottom:32}}
+              onDragOver={onDragOver}
+              onDragLeave={onDragLeave}
+              onDrop={onDrop}
+              onClick={() => fileRef.current?.click()}
+            >
+              <div className="float" style={{marginBottom:16}}><IconUpload/></div>
+              <p style={{fontFamily:'var(--font-display)', fontWeight:600, fontSize:17, color:'var(--text)', marginBottom:8}}>
+                Glissez votre photo ici
+              </p>
+              <p style={{fontSize:13, color:'var(--text-dim)'}}>
+                ou <span style={{color:'#007AFF', textDecoration:'underline'}}>cliquez pour sélectionner</span> · JPG, PNG, WEBP, HEIC
+              </p>
+              <input ref={fileRef} type="file" accept="image/*" onChange={e => processFile(e.target.files[0])} style={{display:'none'}}/>
+            </div>
+
+            {/* Features grid */}
+            <div style={{display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:10}}>
+              {features.map(f => (
+                <div key={f.title} className="glass" style={{borderRadius:'var(--radius)', padding:'18px 20px', display:'flex', alignItems:'center', gap:14}}>
+                  <div style={{fontSize:26, flexShrink:0}}>{f.icon}</div>
+                  <div>
+                    <p style={{fontWeight:600, fontSize:14, color:'var(--text)', marginBottom:2}}>{f.title}</p>
+                    <p style={{fontSize:12, color:'var(--text-dim)'}}>{f.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Social proof */}
+            <p style={{textAlign:'center', fontSize:12, color:'var(--text-dim)', marginTop:28}}>
+              🔒 Vos photos ne sont pas stockées · 1ère analyse <span style={{color:'#007AFF'}}>gratuite</span>
+            </p>
+          </>
+        ) : (
+          <div style={{display:'flex', flexDirection:'column', gap:16}}>
+            {/* Preview image */}
+            <div style={{position:'relative', borderRadius:'var(--radius-lg)', overflow:'hidden', border:'1px solid var(--border)'}}>
+              <img
+                src={image}
+                alt="Objet à analyser"
+                style={{width:'100%', maxHeight:300, objectFit:'cover', display:'block'}}
+              />
+              <div style={{position:'absolute', inset:0, background:'linear-gradient(to top, rgba(8,8,16,0.7) 0%, transparent 45%)', pointerEvents:'none'}}/>
+              <button
+                onClick={() => { setImage(null); setResult(null); setError(null); }}
+                style={{position:'absolute', top:12, right:12, width:30, height:30, borderRadius:'50%', background:'rgba(8,8,16,0.75)', border:'1px solid var(--border-hover)', color:'var(--text)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center'}}
+              >
+                <IconX/>
+              </button>
+              {!result && !loading && (
+                <div style={{position:'absolute', bottom:14, left:0, right:0, textAlign:'center'}}>
+                  <span style={{fontSize:12, color:'rgba(255,255,255,0.5)'}}>Photo prête ✓</span>
+                </div>
+              )}
+            </div>
+
+            {/* Error */}
+            {error && <div className="error-banner fade-up">{error}</div>}
+
+            {/* Analyze CTA */}
+            {!result && !loading && (
+              <button className="btn-primary" onClick={analyze} style={{width:'100%', padding:'16px', fontSize:16, borderRadius:'var(--radius)'}}>
+                <IconSpark size={18} color="#fff"/>
+                Analyser avec l'IA
+                {usageCount===0 && (
+                  <span style={{fontSize:11, background:'rgba(255,255,255,0.2)', padding:'3px 10px', borderRadius:100, marginLeft:4}}>GRATUIT</span>
+                )}
+              </button>
+            )}
+
+            {/* Loader */}
+            {loading && (
+              <div className="glass" style={{borderRadius:'var(--radius-lg)'}}>
+                <AILoader/>
+              </div>
+            )}
+
+            {/* Results */}
+            {result && <ResultCard result={result}/>}
+
+            {/* Analyse autre objet */}
+            {result && (
+              <button
+                className="btn-ghost"
+                onClick={() => { setImage(null); setResult(null); setError(null); }}
+                style={{width:'100%', padding:'13px', marginTop:4, borderRadius:'var(--radius)'}}
+              >
+                ↩ Analyser un autre objet
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Usage bar */}
+        {user && !isPro && (
+          <div style={{textAlign:'center', marginTop:28}}>
+            <p style={{fontSize:12, color:'var(--text-dim)'}}>
+              {usageCount===0
+                ? <>🎁 <span style={{color:'var(--text-muted)'}}>1 analyse gratuite disponible</span></>
+                : <><span style={{color:'var(--text-muted)'}}>{usageCount} analyse(s) utilisée(s) · </span><span style={{color:'#007AFF', cursor:'pointer'}} onClick={() => setShowPaywall(true)}>Débloquez Pro →</span></>
+              }
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* ══ PAYWALL MODAL ══ */}
+      {showPaywall && (
+        <PaywallModal
+          onClose={() => setShowPaywall(false)}
+          onPromoSuccess={() => { setIsPro(true); }}
+        />
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
