@@ -13,411 +13,563 @@
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
   <style>
+    /*══════════════════════════════════════
+      DESIGN SYSTEM — FlashSell v2
+    ══════════════════════════════════════*/
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
-      --blue:#007AFF;--blue-dim:rgba(0,122,255,.14);--blue-border:rgba(0,122,255,.28);
-      --blue-glow:rgba(0,122,255,.3);--cyan:#00D4FF;--green:#00C864;--red:#FF453A;
-      --gold:#FFD60A;--purple:#BF5AF2;
-      --bg:#080810;--bg2:rgba(12,12,24,.95);
-      --surface:rgba(255,255,255,.04);--surface2:rgba(255,255,255,.07);
-      --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.14);
-      --text:#F0F0F8;--muted:rgba(240,240,248,.45);--dim:rgba(240,240,248,.22);
-      --r:16px;--r-sm:10px;--r-lg:24px;--r-xl:32px;
+      --blue:#007AFF;--blue-d:rgba(0,122,255,.14);--blue-b:rgba(0,122,255,.28);
+      --blue-g:rgba(0,122,255,.32);--cyan:#00D4FF;
+      --green:#30D158;--red:#FF453A;--gold:#FFD60A;--amber:#FF9F0A;
+      --purple:#BF5AF2;--indigo:#5E5CE6;
+      --bg:#07070F;--bg2:rgba(11,11,21,.96);
+      --s1:rgba(255,255,255,.04);--s2:rgba(255,255,255,.07);--s3:rgba(255,255,255,.1);
+      --b1:rgba(255,255,255,.07);--b2:rgba(255,255,255,.13);--b3:rgba(255,255,255,.2);
+      --t1:#EFEFF5;--t2:rgba(239,239,245,.48);--t3:rgba(239,239,245,.22);
+      --r:16px;--rs:10px;--rl:24px;--rxl:32px;
       --fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
     }
-    html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+    html,body{height:100%;background:var(--bg);color:var(--t1);font-family:var(--fb);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
     #root{min-height:100vh}
-    /* ── Mesh bg ── */
+
+    /* Mesh */
     .mesh{background:
-      radial-gradient(ellipse 80% 55% at 10% 35%,rgba(0,122,255,.13) 0%,transparent 60%),
-      radial-gradient(ellipse 55% 45% at 88% 12%,rgba(0,212,255,.08) 0%,transparent 55%),
-      radial-gradient(ellipse 65% 65% at 60% 90%,rgba(0,60,200,.1) 0%,transparent 55%),
+      radial-gradient(ellipse 80% 60% at 5% 30%,rgba(0,122,255,.11) 0%,transparent 58%),
+      radial-gradient(ellipse 60% 50% at 90% 10%,rgba(0,212,255,.07) 0%,transparent 54%),
+      radial-gradient(ellipse 70% 70% at 60% 95%,rgba(0,60,200,.09) 0%,transparent 52%),
       var(--bg);min-height:100vh}
-    /* ── Glass ── */
-    .g1{background:var(--surface);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border)}
-    .g2{background:rgba(10,10,22,.9);backdrop-filter:blur(44px);-webkit-backdrop-filter:blur(44px);border:1px solid var(--border2)}
-    .g3{background:rgba(8,8,18,.96);backdrop-filter:blur(60px);-webkit-backdrop-filter:blur(60px);border:1px solid rgba(255,255,255,.12)}
-    /* ── Typography ── */
-    .gx{background:linear-gradient(130deg,#fff 0%,#70BBFF 42%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .gold-gx{background:linear-gradient(130deg,#FFD60A,#FF9F0A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .lbl{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
-    /* ── Buttons ── */
+
+    /* Glass layers */
+    .g1{background:var(--s1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--b1)}
+    .g2{background:rgba(10,10,22,.88);backdrop-filter:blur(44px);-webkit-backdrop-filter:blur(44px);border:1px solid var(--b2)}
+    .g3{background:rgba(7,7,17,.97);backdrop-filter:blur(64px);-webkit-backdrop-filter:blur(64px);border:1px solid var(--b2)}
+    .g-purple{background:rgba(20,8,36,.97);backdrop-filter:blur(64px);-webkit-backdrop-filter:blur(64px);border:1px solid rgba(191,90,242,.22)}
+
+    /* Text */
+    .gx{background:linear-gradient(128deg,#fff 0%,#6DBAFF 40%,var(--cyan) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .gx-gold{background:linear-gradient(128deg,#FFD60A,#FF9F0A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .gx-purple{background:linear-gradient(128deg,#BF5AF2,#5E5CE6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .lbl{font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+
+    /* Buttons */
     .btn{background:var(--blue);color:#fff;border:none;border-radius:var(--r);font-family:var(--fb);font-size:15px;font-weight:600;cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);display:inline-flex;align-items:center;justify-content:center;gap:8px}
-    .btn:hover{background:#0068DD;transform:translateY(-1px);box-shadow:0 10px 36px var(--blue-glow)}
-    .btn:active{transform:scale(.98)}
-    .btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important;box-shadow:none!important}
-    .btn-o{background:var(--surface);color:var(--muted);border:1px solid var(--border);border-radius:var(--r-sm);font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
-    .btn-o:hover{background:var(--surface2);border-color:var(--border2);color:var(--text)}
-    .btn-o:disabled{opacity:.4;cursor:not-allowed}
-    .btn-red{background:rgba(255,69,58,.12);color:var(--red);border:1px solid rgba(255,69,58,.25);border-radius:var(--r-sm);font-family:var(--fb);font-size:13px;font-weight:600;cursor:pointer;padding:8px 14px;transition:all .18s;display:inline-flex;align-items:center;gap:6px}
+    .btn:hover:not(:disabled){background:#0068DD;transform:translateY(-1px);box-shadow:0 12px 38px var(--blue-g)}
+    .btn:active:not(:disabled){transform:scale(.98)}
+    .btn:disabled{opacity:.42;cursor:not-allowed}
+    .btn-o{background:var(--s1);color:var(--t2);border:1px solid var(--b1);border-radius:var(--rs);font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;transition:all .18s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+    .btn-o:hover:not(:disabled){background:var(--s2);border-color:var(--b2);color:var(--t1)}
+    .btn-o:disabled{opacity:.38;cursor:not-allowed}
+    .btn-gold{background:linear-gradient(135deg,#FFD60A,#FF9F0A);color:#000;border:none;border-radius:var(--r);font-family:var(--fb);font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+    .btn-gold:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 12px 38px rgba(255,200,0,.28)}
+    .btn-stripe{background:linear-gradient(135deg,#635BFF,#8B5CF6);color:#fff;border:none;border-radius:var(--r);font-family:var(--fb);font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+    .btn-stripe:hover{transform:translateY(-1px);box-shadow:0 12px 38px rgba(99,91,255,.32)}
+    .btn-red{background:rgba(255,69,58,.11);color:var(--red);border:1px solid rgba(255,69,58,.22);border-radius:var(--rs);font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;padding:5px 10px;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
     .btn-red:hover{background:rgba(255,69,58,.2)}
-    .btn-gold{background:linear-gradient(135deg,#FFD60A,#FF9F0A);color:#000;border:none;border-radius:var(--r);font-family:var(--fb);font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-    .btn-gold:hover{transform:translateY(-1px);box-shadow:0 10px 36px rgba(255,200,0,.3)}
-    /* ── Inputs ── */
-    .inp{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:var(--fb);font-size:14px;padding:11px 14px;outline:none;transition:border-color .18s}
-    .inp:focus{border-color:rgba(0,122,255,.5);background:rgba(0,122,255,.04)}
-    .inp::placeholder{color:var(--dim)}
-    /* ── Tags ── */
-    .tag{display:inline-flex;align-items:center;padding:4px 12px;background:var(--blue-dim);border:1px solid var(--blue-border);border-radius:100px;font-size:12px;font-weight:500;color:#70BBFF}
-    .tag-gold{background:rgba(255,214,10,.1);border-color:rgba(255,214,10,.3);color:#FFD60A}
-    .tag-green{background:rgba(0,200,100,.1);border-color:rgba(0,200,100,.3);color:var(--green)}
-    .tag-red{background:rgba(255,69,58,.1);border-color:rgba(255,69,58,.25);color:var(--red)}
-    .tag-purple{background:rgba(191,90,242,.1);border-color:rgba(191,90,242,.3);color:var(--purple)}
-    /* ── Nav ── */
-    .nav{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:13px 24px;background:rgba(8,8,16,.72);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid var(--border)}
-    /* ── Price card ── */
-    .pc{flex:1;padding:14px 8px;border-radius:var(--r-sm);text-align:center;background:var(--surface);border:1px solid var(--border);transition:transform .15s}
-    .pc.hi{background:var(--blue-dim);border-color:var(--blue-border)}
-    /* ── Backdrop ── */
-    .bd{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
-    /* ── Banners ── */
-    .ok{padding:11px 16px;border-radius:var(--r-sm);background:rgba(0,200,100,.11);border:1px solid rgba(0,200,100,.28);color:var(--green);font-weight:600;text-align:center;font-size:14px}
-    .er{padding:10px 16px;border-radius:var(--r-sm);background:rgba(255,69,58,.11);border:1px solid rgba(255,69,58,.24);color:var(--red);font-size:13px;text-align:center}
-    .wa{padding:11px 14px;border-radius:var(--r-sm);background:rgba(255,200,0,.07);border:1px solid rgba(255,200,0,.2);font-size:12px;color:rgba(255,220,80,.82);line-height:1.65}
-    /* ── Admin panel ── */
-    .admin-panel{border:1px solid rgba(191,90,242,.3);background:rgba(20,8,35,.95);backdrop-filter:blur(44px);-webkit-backdrop-filter:blur(44px)}
-    .admin-stat{flex:1;padding:16px;border-radius:var(--r-sm);background:rgba(191,90,242,.07);border:1px solid rgba(191,90,242,.18);text-align:center}
-    /* ── Glow dot ── */
-    .dot{width:8px;height:8px;border-radius:50%;background:var(--blue);animation:pulse-ring 2s infinite}
-    /* ── Animations ── */
-    @keyframes spin-cw  {to{transform:rotate(360deg)}}
-    @keyframes spin-ccw {to{transform:rotate(-360deg)}}
-    @keyframes float    {0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-    @keyframes fadeUp   {from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(0,122,255,.45)}70%{box-shadow:0 0 0 10px rgba(0,122,255,0)}100%{box-shadow:0 0 0 0 rgba(0,122,255,0)}}
-    @keyframes shimmer  {0%{background-position:-600px 0}100%{background-position:600px 0}}
-    .fu   {animation:fadeUp .4s cubic-bezier(.4,0,.2,1) forwards}
-    .fu1  {animation:fadeUp .4s .06s cubic-bezier(.4,0,.2,1) both}
-    .fu2  {animation:fadeUp .4s .12s cubic-bezier(.4,0,.2,1) both}
-    .fu3  {animation:fadeUp .4s .18s cubic-bezier(.4,0,.2,1) both}
-    .fu4  {animation:fadeUp .4s .24s cubic-bezier(.4,0,.2,1) both}
-    .fl   {animation:float 3.6s ease-in-out infinite}
-    /* ── Drop zone ── */
-    .dz{transition:all .18s ease}
-    .dz.on{border-color:var(--blue)!important;background:rgba(0,122,255,.06)!important}
-    /* ── Auth tabs ── */
-    .atab{flex:1;padding:10px;background:none;border:none;color:var(--dim);font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all .18s}
-    .atab.on{color:var(--text);border-bottom-color:var(--blue)}
-    .mbtn{flex:1;padding:8px;border-radius:var(--r-sm);background:var(--surface);border:1px solid var(--border);color:var(--muted);font-family:var(--fb);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
-    .mbtn.on{background:var(--blue-dim);border-color:var(--blue-border);color:#70BBFF}
-    /* ── Scrollbar ── */
+    .btn-green{background:rgba(48,209,88,.11);color:var(--green);border:1px solid rgba(48,209,88,.22);border-radius:var(--rs);font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;padding:5px 10px;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
+    .btn-green:hover{background:rgba(48,209,88,.2)}
+
+    /* Inputs */
+    .inp{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--b1);border-radius:var(--rs);color:var(--t1);font-family:var(--fb);font-size:14px;padding:11px 14px;outline:none;transition:all .18s}
+    .inp:focus{border-color:rgba(0,122,255,.48);background:rgba(0,122,255,.04);box-shadow:0 0 0 3px rgba(0,122,255,.08)}
+    .inp::placeholder{color:var(--t3)}
+    textarea.inp{resize:vertical;min-height:100px;line-height:1.6}
+
+    /* Tags */
+    .tag{display:inline-flex;align-items:center;gap:4px;padding:4px 11px;background:var(--blue-d);border:1px solid var(--blue-b);border-radius:100px;font-size:12px;font-weight:500;color:#6DBAFF}
+    .tag-gold{background:rgba(255,214,10,.09);border-color:rgba(255,214,10,.28);color:var(--gold)}
+    .tag-green{background:rgba(48,209,88,.1);border-color:rgba(48,209,88,.28);color:var(--green)}
+    .tag-red{background:rgba(255,69,58,.1);border-color:rgba(255,69,58,.24);color:var(--red)}
+    .tag-purple{background:rgba(191,90,242,.1);border-color:rgba(191,90,242,.28);color:var(--purple)}
+    .tag-beta{background:linear-gradient(135deg,rgba(255,159,10,.18),rgba(255,214,10,.1));border:1px solid rgba(255,200,0,.3);color:var(--gold);font-weight:700;letter-spacing:.06em;font-size:10px;padding:3px 10px;animation:beta-pulse 2.4s ease-in-out infinite}
+
+    /* Nav */
+    .nav{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:13px 22px;background:rgba(7,7,15,.74);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-bottom:1px solid var(--b1)}
+
+    /* Badges */
+    .ok{padding:11px 16px;border-radius:var(--rs);background:rgba(48,209,88,.1);border:1px solid rgba(48,209,88,.26);color:var(--green);font-weight:600;font-size:13px;text-align:center}
+    .er{padding:10px 16px;border-radius:var(--rs);background:rgba(255,69,58,.1);border:1px solid rgba(255,69,58,.22);color:var(--red);font-size:13px;text-align:center}
+    .wa{padding:11px 14px;border-radius:var(--rs);background:rgba(255,200,0,.06);border:1px solid rgba(255,200,0,.18);font-size:12px;color:rgba(255,220,80,.8);line-height:1.65}
+    .info-box{padding:11px 14px;border-radius:var(--rs);background:var(--blue-d);border:1px solid var(--blue-b);font-size:13px;color:rgba(110,186,255,.85);line-height:1.65}
+
+    /* Price cards */
+    .pc{flex:1;padding:14px 8px;border-radius:var(--rs);text-align:center;background:var(--s1);border:1px solid var(--b1)}
+    .pc.hi{background:var(--blue-d);border-color:var(--blue-b)}
+
+    /* Backdrop */
+    .bd{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.84);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
+
+    /* Animations */
+    @keyframes spin-cw{to{transform:rotate(360deg)}}
+    @keyframes spin-ccw{to{transform:rotate(-360deg)}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(0,122,255,.42)}70%{box-shadow:0 0 0 10px transparent}100%{box-shadow:0 0 0 0 transparent}}
+    @keyframes beta-pulse{0%,100%{opacity:1}50%{opacity:.7}}
+    @keyframes shimmer{0%{background-position:-600px 0}100%{background-position:600px 0}}
+    @keyframes slide-in{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+    .fu{animation:fadeUp .38s cubic-bezier(.4,0,.2,1) forwards}
+    .fu1{animation:fadeUp .38s .06s cubic-bezier(.4,0,.2,1) both}
+    .fu2{animation:fadeUp .38s .12s cubic-bezier(.4,0,.2,1) both}
+    .fu3{animation:fadeUp .38s .18s cubic-bezier(.4,0,.2,1) both}
+    .fu4{animation:fadeUp .38s .24s cubic-bezier(.4,0,.2,1) both}
+    .fu5{animation:fadeUp .38s .30s cubic-bezier(.4,0,.2,1) both}
+    .fl{animation:float 3.6s ease-in-out infinite}
+    .si{animation:slide-in .3s cubic-bezier(.4,0,.2,1) both}
+
+    /* Drop zone */
+    .dz{transition:all .18s ease;border-radius:var(--rl)}
+    .dz.on{border-color:var(--blue)!important;background:rgba(0,122,255,.05)!important;transform:scale(1.005)}
+
+    /* Admin */
+    .admin-fab{position:fixed;bottom:20px;right:20px;width:38px;height:38px;border-radius:50%;background:rgba(191,90,242,.14);border:1px solid rgba(191,90,242,.28);color:var(--purple);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:35;box-shadow:0 4px 20px rgba(191,90,242,.2)}
+    .admin-fab:hover{background:rgba(191,90,242,.24);transform:scale(1.1)}
+    .admin-stat{padding:16px;border-radius:var(--rs);background:rgba(191,90,242,.07);border:1px solid rgba(191,90,242,.16);text-align:center}
+
+    /* Switch toggle */
+    .switch{position:relative;width:44px;height:24px;flex-shrink:0}
+    .switch input{opacity:0;width:0;height:0}
+    .slider{position:absolute;inset:0;background:var(--s3);border:1px solid var(--b2);border-radius:100px;cursor:pointer;transition:.25s}
+    .slider:before{content:'';position:absolute;width:18px;height:18px;left:2px;top:2px;background:#fff;border-radius:50%;transition:.25s}
+    input:checked+.slider{background:var(--blue);border-color:var(--blue)}
+    input:checked+.slider:before{transform:translateX(20px)}
+
+    /* News/roadmap */
+    .news-card{padding:18px 20px;border-radius:var(--r);background:var(--s1);border:1px solid var(--b1);transition:border-color .2s}
+    .news-card:hover{border-color:var(--b2)}
+
+    /* Table */
+    .tbl{width:100%;border-collapse:collapse;font-size:13px}
+    .tbl th{color:var(--t3);font-weight:500;padding:8px 12px;text-align:left;border-bottom:1px solid var(--b1)}
+    .tbl td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.03);color:var(--t2);vertical-align:middle}
+    .tbl tr:last-child td{border-bottom:none}
+
+    /* Auth tabs */
+    .atab{flex:1;padding:10px;background:none;border:none;color:var(--t3);font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all .18s}
+    .atab.on{color:var(--t1);border-bottom-color:var(--blue)}
+    .mbtn{flex:1;padding:8px;border-radius:var(--rs);background:var(--s1);border:1px solid var(--b1);color:var(--t2);font-family:var(--fb);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+    .mbtn.on{background:var(--blue-d);border-color:var(--blue-b);color:#6DBAFF}
+    .div{display:flex;align-items:center;gap:10px;color:var(--t3);font-size:12px;margin:12px 0}
+    .div::before,.div::after{content:'';flex:1;height:1px;background:var(--b1)}
+
+    /* Scrollbar */
     ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);border-radius:2px}
-    /* ── Admin pill ── */
-    .admin-trigger{position:fixed;bottom:20px;right:20px;width:36px;height:36px;border-radius:50%;background:rgba(191,90,242,.15);border:1px solid rgba(191,90,242,.3);color:var(--purple);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:35}
-    .admin-trigger:hover{background:rgba(191,90,242,.25);transform:scale(1.08)}
-    /* ── Stripe button ── */
-    .btn-stripe{background:linear-gradient(135deg,#635BFF,#8B5CF6);color:#fff;border:none;border-radius:var(--r);font-family:var(--fb);font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-    .btn-stripe:hover{transform:translateY(-1px);box-shadow:0 10px 36px rgba(99,91,255,.35)}
-    /* ── Divider ── */
-    .div{display:flex;align-items:center;gap:10px;color:var(--dim);font-size:12px;margin:12px 0}
-    .div::before,.div::after{content:'';flex:1;height:1px;background:var(--border)}
-    /* ── Admin table ── */
-    .atbl{width:100%;border-collapse:collapse;font-size:13px}
-    .atbl th{color:var(--dim);font-weight:500;padding:8px 12px;text-align:left;border-bottom:1px solid var(--border)}
-    .atbl td{padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--muted)}
-    .atbl tr:last-child td{border-bottom:none}
+
+    /* Tabs nav (public) */
+    .tab-bar{display:flex;gap:4px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:4px;margin-bottom:28px}
+    .tab-btn{flex:1;padding:9px 12px;background:none;border:none;color:var(--t2);font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;border-radius:var(--rs);transition:all .18s}
+    .tab-btn.on{background:var(--s3);color:var(--t1)}
+
+    /* Loading shimmer */
+    .shimmer{background:linear-gradient(90deg,var(--s1) 25%,var(--s2) 50%,var(--s1) 75%);background-size:600px 100%;animation:shimmer 1.4s infinite;border-radius:var(--rs)}
+
+    /* Structured result */
+    .result-section{padding:14px 0;border-bottom:1px solid var(--b1)}
+    .result-section:last-child{border-bottom:none;padding-bottom:0}
   </style>
 </head>
 <body>
 <div id="root"></div>
 
-<!-- ══════════════════════════════════════════════
-     CONFIG — À personnaliser avant déploiement
-══════════════════════════════════════════════ -->
+<!--═══════════════════════════════════════════════════════
+    CONFIG GLOBALE — À modifier avant déploiement
+═══════════════════════════════════════════════════════-->
 <script>
 /* ── Supabase ── */
 const SB_URL  = 'https://idraiyitklhwavrujytq.supabase.co';
-const SB_KEY  = 'sb_publishable_FHGxdd7tUJn_UptcQkY6tA_K9aL6QEf';
-/* ⚠️ Remplacez SB_KEY par la vraie clé anon (eyJ...)
-   depuis Dashboard → Settings → API si Google OAuth échoue */
+const SB_ANON = 'sb_publishable_FHGxdd7tUJn_UptcQkY6tA_K9aL6QEf';
+/* ⚠️ Remplacez SB_ANON par la clé anon (eyJ...) du Dashboard → Settings → API */
 
 /* ── Stripe ── */
-const STRIPE_LINK = 'https://buy.stripe.com/test_8x27sK5dWbIze6bbDfdjO00';
-/* Collez votre lien de paiement Stripe Payment Link ici */
+const STRIPE_LINK = 'https://buy.stripe.com/VOTRE_LIEN_ICI';
 
-/* ── Admin ── */
+/* ── Admin email ── */
 const ADMIN_EMAIL = 'tristanhb@outlook.fr';
 
-/* ── Supabase client avec persistSession ── */
+/* ──────────────────────────────────────
+   SQL À EXÉCUTER DANS SUPABASE SQL EDITOR
+   (une seule fois, avant utilisation)
+──────────────────────────────────────
+create table if not exists public.site_settings (
+  key   text primary key,
+  value text,
+  updated_at timestamptz default now()
+);
+
+create table if not exists public.pro_users (
+  id         uuid default gen_random_uuid() primary key,
+  email      text unique not null,
+  granted_by text,
+  created_at timestamptz default now()
+);
+
+create table if not exists public.analyses_log (
+  id         uuid default gen_random_uuid() primary key,
+  user_id    uuid references auth.users(id) on delete set null,
+  created_at timestamptz default now()
+);
+
+-- Accès public en lecture pour site_settings
+alter table public.site_settings enable row level security;
+create policy "Public read" on public.site_settings for select using (true);
+create policy "Admin write" on public.site_settings for all using (auth.jwt() ->> 'email' = 'tristanhb@outlook.fr');
+
+-- pro_users: lecture publique par l'utilisateur lui-même
+alter table public.pro_users enable row level security;
+create policy "Public read" on public.pro_users for select using (true);
+create policy "Admin write" on public.pro_users for all using (auth.jwt() ->> 'email' = 'tristanhb@outlook.fr');
+
+-- analyses_log: insert by authenticated users
+alter table public.analyses_log enable row level security;
+create policy "Insert own" on public.analyses_log for insert with check (auth.uid() = user_id);
+create policy "Admin read"  on public.analyses_log for select using (auth.jwt() ->> 'email' = 'tristanhb@outlook.fr');
+
+-- Insert initial settings
+insert into public.site_settings(key,value) values
+  ('beta_mode','false'),
+  ('roadmap','## 🚀 Mises à jour FlashSell.ai\n\n**v2.0** — Analyse IA Vision haute précision, détection de marque, description structurée, Dashboard Admin en temps réel.\n\n**Bientôt disponible**\n- Export PDF des fiches produit\n- Intégration directe Vinted\n- Historique de vos analyses\n- Mode multi-photos')
+on conflict(key) do nothing;
+──────────────────────────────────────*/
+
+/* ── Supabase client avec persistSession localStorage ── */
 const { createClient } = supabase;
-window._sb = createClient(SB_URL, SB_KEY, {
+window._sb = createClient(SB_URL, SB_ANON, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
-    detectSessionInUrl: true,   /* crucial pour le callback OAuth Google */
-    storageKey: 'flashsell_auth',
+    detectSessionInUrl: true,
+    storage: window.localStorage,
+    storageKey: 'flashsell_v2_session',
   }
 });
 
 /* ═══════════════════════════════════════
-   HELPERS — Crédits & Pro (localStorage)
+   PRO CHECK (DB first, localStorage fallback)
 ═══════════════════════════════════════ */
-const LS = {
-  usage:  (uid)      => parseInt(localStorage.getItem('fs_use_'+uid)||'0',10),
-  setUse: (uid,n)    => localStorage.setItem('fs_use_'+uid,n),
-  isPro:  (uid,email)=> {
-    if (localStorage.getItem('fs_pro_'+uid)==='1') return true;
-    /* Vérification liste admin */
-    const list = JSON.parse(localStorage.getItem('fs_admin_pro_list')||'[]');
-    return list.map(e=>e.toLowerCase()).includes((email||'').toLowerCase());
-  },
-  setPro: (uid)      => localStorage.setItem('fs_pro_'+uid,'1'),
-  /* Admin pro list */
-  getProList: ()     => JSON.parse(localStorage.getItem('fs_admin_pro_list')||'[]'),
-  addProEmail:(email)=> {
-    const l = LS.getProList();
-    if (!l.map(e=>e.toLowerCase()).includes(email.toLowerCase())) l.push(email.toLowerCase());
-    localStorage.setItem('fs_admin_pro_list',JSON.stringify(l));
-  },
-  removeProEmail:(email)=>{
-    const l = LS.getProList().filter(e=>e.toLowerCase()!==email.toLowerCase());
-    localStorage.setItem('fs_admin_pro_list',JSON.stringify(l));
+window._isProUser = async (email) => {
+  if (!email) return false;
+  try {
+    const { data } = await window._sb
+      .from('pro_users')
+      .select('id')
+      .eq('email', email.toLowerCase().trim())
+      .single();
+    return !!data;
+  } catch (_) {
+    /* localStorage fallback */
+    const list = JSON.parse(localStorage.getItem('fs_pro_list_v2') || '[]');
+    return list.map(e=>e.toLowerCase()).includes(email.toLowerCase());
   }
 };
-window._LS = LS;
+
+/* ── Analyse log ── */
+window._logAnalysis = async (userId) => {
+  if (!userId) return;
+  try { await window._sb.from('analyses_log').insert({ user_id: userId }); }
+  catch (_) { /* silent */ }
+};
+
+/* ── Usage local (avant check pro) ── */
+const LS = {
+  usage:  (uid) => parseInt(localStorage.getItem('fs2_use_'+uid)||'0',10),
+  setUse: (uid,n)=> localStorage.setItem('fs2_use_'+uid,n),
+  codeUsed:(uid)=>localStorage.getItem('fs2_code_'+uid)==='1',
+  setCode:(uid)=>localStorage.setItem('fs2_code_'+uid,'1'),
+};
+window._LS2 = LS;
 
 /* ═══════════════════════════════════════
-   ANALYSEUR D'IMAGE INTELLIGENT
-   1) Détecte couleur dominante via Canvas
-   2) Envoie à Claude API (si dispo)
-   3) Fallback template intelligent selon couleurs
+   AUTH ERRORS — Traductions FR
 ═══════════════════════════════════════ */
-function detectDominantColor(base64) {
-  return new Promise(resolve => {
-    try {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        const cv = document.createElement('canvas');
-        cv.width = 80; cv.height = 80;
-        const ctx = cv.getContext('2d');
-        ctx.drawImage(img, 0, 0, 80, 80);
-        const d = ctx.getImageData(0,0,80,80).data;
-        let r=0,g=0,b=0,n=0;
-        for (let i=0;i<d.length;i+=4){
-          /* Skip near-white and near-black */
-          const br=(d[i]+d[i+1]+d[i+2])/3;
-          if (br>240||br<15) continue;
-          r+=d[i];g+=d[i+1];b+=d[i+2];n++;
-        }
-        if (!n) { resolve({r:128,g:128,b:128,name:'neutre'}); return; }
-        r=Math.round(r/n);g=Math.round(g/n);b=Math.round(b/n);
-        /* Named color */
-        const max=Math.max(r,g,b), min=Math.min(r,g,b), diff=max-min;
-        let name='neutre';
-        if (diff<30) name=max>150?'blanc/crème':'gris/anthracite';
-        else if (r>g&&r>b) name=r>180?'rouge vif':'bordeaux/marron';
-        else if (g>r&&g>b) name=g>150?'vert':'kaki/olive';
-        else if (b>r&&b>g) name=b>150?'bleu':'marine/indigo';
-        else if (r>150&&g>150&&b<100) name='jaune/doré';
-        else if (r>150&&b>100&&g<100) name='violet/rose';
-        else if (r>140&&g>80&&b<60) name='orange/rouille';
-        resolve({r,g,b,name,hex:`#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`});
-      };
-      img.onerror = ()=>resolve({r:128,g:128,b:128,name:'neutre'});
-      img.src = 'data:image/jpeg;base64,'+base64;
-    } catch(_){ resolve({r:128,g:128,b:128,name:'neutre'}); }
-  });
-}
-
-/* Template intelligent basé sur couleur */
-function buildSmartMock(color) {
-  const c = color.name;
-  /* Catégorie probable selon couleur */
-  const cat = c.includes('rouge')||c.includes('bordeaux') ? 'vetement_rouge'
-    : c.includes('bleu')||c.includes('marine') ? 'vetement_bleu'
-    : c.includes('vert')||c.includes('kaki') ? 'vetement_vert'
-    : c.includes('noir')||c.includes('anthracite') ? 'vetement_noir'
-    : c.includes('blanc')||c.includes('crème') ? 'vetement_blanc'
-    : c.includes('gris') ? 'vetement_gris'
-    : c.includes('orange')||c.includes('rouille') ? 'objet_orange'
-    : c.includes('jaune')||c.includes('doré') ? 'objet_dore'
-    : 'generique';
-
-  const templates = {
-    vetement_rouge:{title:`Vêtement Rouge Profond — Pièce Mode Remarquable`,description:`Coloris rouge profond qui attire immédiatement le regard. Tissu de bonne qualité, coupe flatteuse qui s'adapte aux morphologies variées. Une pièce signature pour donner du caractère à n'importe quelle tenue — portée une ou deux fois seulement.`,price:{low:12,mid:24,high:45},keywords:['rouge','mode','tendance','vêtement','élégant','seconde main','vinted','ebay']},
-    vetement_bleu:{title:`Pièce Mode Bleu — Look Contemporain Epuré`,description:`Le bleu est la couleur du moment et cette pièce en est la parfaite illustration. Matière soignée, finitions propres, coupe moderne qui traverse les saisons sans vieillir. Idéale en pièce centrale ou en superposition.`,price:{low:10,mid:22,high:40},keywords:['bleu','mode','contemporain','vêtement','tendance','bleu marine','vinted','seconde main']},
-    vetement_vert:{title:`Vêtement Coloris Vert — Tendance Nature & Street`,description:`Le vert dans toutes ses nuances s'impose en tête des tendances mode. Cette pièce en est la preuve parfaite : coupe nette, tissu respirant, coloris qui se marie naturellement avec le blanc, le beige et le camel.`,price:{low:10,mid:20,high:38},keywords:['vert','kaki','olive','mode','tendance','nature','street','vinted']},
-    vetement_noir:{title:`Basique Noir Premium — Intemporel & Polyvalent`,description:`Le noir reste l'incontournable absolu du dressing capsule. Cette pièce en version premium combine qualité du tissu et coupe maîtrisée pour un résultat élégant en toutes circonstances. Un must-have à prix raisonnable.`,price:{low:15,mid:30,high:60},keywords:['noir','basique','premium','intemporel','mode','élégant','vinted','ebay']},
-    vetement_blanc:{title:`Pièce Blanche Immaculée — Minimalisme Chic`,description:`Le blanc crème incarne la pureté du style minimaliste. Tissu de qualité, entretenu avec soin, sans auréoles ni jaunissement. Une pièce lumineuse qui rehausse instantanément n'importe quel look — polyvalence maximale assurée.`,price:{low:10,mid:20,high:35},keywords:['blanc','crème','minimaliste','chic','mode','propre','vinted','tendency']},
-    vetement_gris:{title:`Vêtement Gris Chiné — Neutralité & Sophistication`,description:`Le gris chiné est la teinte neutre la plus sophistiquée du vestiaire masculin et féminin. Matière douce, tombé impeccable, polyvalence totale : ce type de pièce se porte du matin au soir sans effort apparent.`,price:{low:12,mid:22,high:42},keywords:['gris','chiné','neutre','sophistiqué','mode','casual','vinted','ebay']},
-    objet_orange:{title:`Objet Design Coloris Orange — Pièce Lifestyle Unique`,description:`Cette pièce dans les tons orange capte instantanément l'attention. Coloris rare sur le marché de l'occasion, état soigné, idéale pour apporter une touche de couleur à votre intérieur ou votre style. Une opportunité à ne pas laisser passer.`,price:{low:15,mid:35,high:70},keywords:['orange','design','coloré','lifestyle','unique','occasion','vinted','ebay']},
-    objet_dore:{title:`Objet Coloris Doré — Élégance & Luxe Accessible`,description:`Les tons dorés évoquent instantanément le luxe et le raffinement. Cette pièce en est un excellent exemple : finitions soignées, état irréprochable, cachet certain. Pour qui sait reconnaître la valeur sans payer le prix fort.`,price:{low:20,mid:45,high:90},keywords:['doré','or','luxe','élégant','précieux','rare','occasion','vinted']},
-    generique:{title:`Objet Rare en Excellent État — Opportunité Seconde Main`,description:`Pièce en excellent état général proposée à un tarif bien en dessous du marché. Entretenu avec soin, prêt à partir immédiatement. Ce type d'article ne reste jamais longtemps disponible sur Vinted ou eBay — première offre raisonnable acceptée.`,price:{low:15,mid:35,high:65},keywords:['occasion','seconde main','excellent état','rare','bon plan','vinted','ebay','collection']},
-  };
-  const t = templates[cat] || templates.generique;
-  /* Ajoute la couleur détectée au titre */
-  t._colorInfo = `Couleur dominante détectée : ${c} (${color.hex||'#888'})`;
-  return t;
-}
-
-window._detectColor  = detectDominantColor;
-window._buildMock    = buildSmartMock;
-
-/* ═══════════════════════════════════════
-   MOCK DATA (8 templates de secours)
-═══════════════════════════════════════ */
-window._MOCKS = [
-  {title:"Nike Air Jordan 1 Retro High OG — Coloris Iconique",description:"Une silhouette légendaire dans un coloris que les collectionneurs s'arrachent. Semelle propre, empeigne sans déformation, boîte d'origine présente. Un investissement sneaker qui prend de la valeur avec le temps — rarissime en cet état.",price:{low:85,mid:145,high:210},keywords:["jordan1","nike","sneaker","retro","collector","streetwear","rare","hype"]},
-  {title:"Veste en Cuir Pleine Fleur — Coupe Slim Vintage 90s",description:"Patine naturelle que seules les années peuvent offrir, coupe slim qui souligne la silhouette sans contraindre. Portée rarement, en parfait état hormis un usage léger du cuir. Un statement fort pour un dressing affirmé.",price:{low:45,mid:85,high:140},keywords:["veste cuir","vintage","slim","leather","90s","mode","tendance","collector"]},
-  {title:"iPhone Reconditionné — Comme Neuf Déverrouillé",description:"Smartphone en excellent état visuel et fonctionnel. Déverrouillé tout opérateur, batterie en bonne santé, livré avec câble d'origine. La puissance Apple à un prix qui respecte votre budget.",price:{low:180,mid:280,high:380},keywords:["iphone","apple","smartphone","déverrouillé","reconditionné","occasion","téléphone","high-tech"]},
-  {title:"Sac Cuir Grainé Structuré — Fermoir Doré Premium",description:"Structure ferme, cuir grainé au toucher luxueux, fermoir doré sans ternissement. Ce sac tient seul, ouvre facilement et vieillit magnifiquement. Allure haut de gamme rarissime à ce prix sur le marché de l'occasion.",price:{low:30,mid:58,high:98},keywords:["sac cuir","structuré","doré","luxe","femme","bag","premium","occasion"]},
-  {title:"Console Gaming Pack Complet — Testé & Fonctionnel",description:"Console en parfait état de fonctionnement, testée avant mise en vente. Pack complet avec manette et câbles d'origine. Idéale pour profiter d'une bibliothèque de jeux complète à prix imbattable.",price:{low:120,mid:175,high:240},keywords:["console","gaming","jeux","pack complet","occasion","fonctionnel","sony","nintendo"]},
-  {title:"Manteau Laine Oversize — Silhouette Graphique Hiver",description:"La coupe oversize longue en laine mélangée offre chaleur réelle et allure graphique très recherchée. Coloris intemporel qui traverse toutes les tendances. Une pièce maîtresse pour construire une garde-robe capsule performante.",price:{low:35,mid:68,high:115},keywords:["manteau","laine","oversize","hiver","capsule","élégant","femme","tendance"]},
-  {title:"Tableau Acrylique Original Signé — Format 60×80",description:"Œuvre sur toile de lin réalisée à l'acrylique, signée et numérotée. Composition abstraite aux contrastes saisissants qui s'intègre dans tous les intérieurs contemporains. Certificat d'authenticité inclus.",price:{low:80,mid:150,high:230},keywords:["tableau","acrylique","original","art","contemporain","décoration","signé","unique"]},
-  {title:"Montre Élégante — Cadran Épuré Style Minimaliste",description:"Bracelet en cuir véritable, cadran épuré sans fioriture, mécanisme régulier et précis. Cette montre incarne le minimalisme chic que recherchent les connaisseurs. Port très occasionnel, quasi-neuve, piles récentes.",price:{low:25,mid:55,high:95},keywords:["montre","watch","élégante","minimaliste","cuir","cadran","occasion","accessoire"]},
-];
-
-/* ═══════════════════════════════════════
-   ERREURS AUTH — Messages FR
-═══════════════════════════════════════ */
-window._authErr = (msg) => {
+window._ae = (msg) => {
   const m = (msg||'').toLowerCase();
   if (m.includes('invalid login credentials'))    return 'Email ou mot de passe incorrect.';
-  if (m.includes('user already registered'))      return 'Cet email est déjà utilisé. Essayez de vous connecter.';
-  if (m.includes('email already'))               return 'Cet email est déjà enregistré.';
-  if (m.includes('password should be at least')) return 'Le mot de passe doit faire au moins 6 caractères.';
-  if (m.includes('unable to validate'))           return 'Impossible de valider votre email. Vérifiez le format.';
-  if (m.includes('email not confirmed'))          return 'Veuillez confirmer votre email avant de vous connecter.';
-  if (m.includes('too many requests'))            return 'Trop de tentatives. Attendez quelques minutes.';
-  if (m.includes('network'))                      return 'Erreur réseau. Vérifiez votre connexion.';
+  if (m.includes('user already registered')||m.includes('email already')) return 'Cet email est déjà utilisé. Connectez-vous.';
+  if (m.includes('password should be at least'))  return 'Mot de passe trop court (6 caractères minimum).';
+  if (m.includes('email not confirmed'))           return 'Confirmez votre email avant de vous connecter.';
+  if (m.includes('too many requests'))             return 'Trop de tentatives. Patientez quelques minutes.';
+  if (m.includes('network'))                       return 'Erreur réseau. Vérifiez votre connexion.';
+  if (m.includes('provider is not enabled'))       return 'Google Auth non configuré dans Supabase.';
   return msg || 'Une erreur est survenue.';
+};
+
+/* ═══════════════════════════════════════
+   DÉTECTION COULEUR DOMINANTE (Canvas)
+═══════════════════════════════════════ */
+window._dominantColor = (base64) => new Promise(resolve => {
+  try {
+    const img = new Image();
+    img.onload = () => {
+      const cv = document.createElement('canvas');
+      cv.width = 80; cv.height = 80;
+      const ctx = cv.getContext('2d');
+      ctx.drawImage(img, 0, 0, 80, 80);
+      const px = ctx.getImageData(0,0,80,80).data;
+      let r=0,g=0,b=0,n=0;
+      for (let i=0;i<px.length;i+=4){
+        const br=(px[i]+px[i+1]+px[i+2])/3;
+        if (br>238||br<16) continue;
+        r+=px[i];g+=px[i+1];b+=px[i+2];n++;
+      }
+      if (!n) { resolve({name:'neutre',hex:'#888888'}); return; }
+      r=Math.round(r/n);g=Math.round(g/n);b=Math.round(b/n);
+      const mx=Math.max(r,g,b),mn=Math.min(r,g,b),df=mx-mn;
+      let name='neutre';
+      if (df<28)      name=mx>160?'blanc/crème':'gris sombre';
+      else if(r>g&&r>b) name=r>185?'rouge vif':'bordeaux/marron';
+      else if(g>r&&g>b) name=g>155?'vert vif':'kaki/olive';
+      else if(b>r&&b>g) name=b>155?'bleu vif':'marine/denim';
+      else if(r>150&&g>150&&b<90) name='jaune/moutarde';
+      else if(r>150&&b>120&&g<100) name='violet/rose';
+      else if(r>145&&g>85&&b<55)  name='orange/rouille';
+      const hex = '#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('');
+      resolve({name,hex,r,g,b});
+    };
+    img.onerror = ()=>resolve({name:'neutre',hex:'#888'});
+    img.src = 'data:image/jpeg;base64,'+base64;
+  } catch(_){ resolve({name:'neutre',hex:'#888'}); }
+});
+
+/* ═══════════════════════════════════════
+   SIMULATEUR IA INTELLIGENT (fallback)
+═══════════════════════════════════════ */
+window._smartMock = (color) => {
+  const c = color.name;
+  const isCloth = true; /* heuristique par défaut */
+  const tpls = {
+    'rouge vif':        {cat:'Vêtement',brand:'Zara / H&M',title:'Chemise / Haut Rouge Vif — Coupe Moderne',desc:'Coloris rouge intense qui capte immédiatement l\'attention. Tissu fluide au toucher agréable, coupe ajustée qui valorise la silhouette.',mots:['rouge','vif','haut','chemise','coloré','tendance','vinted','ebay'],low:8,mid:18,high:35},
+    'bordeaux/marron':  {cat:'Vêtement',brand:'Non identifiée',title:'Pièce Bordeaux Profond — Style Intemporel',desc:'Le bordeaux reste l\'une des couleurs signature du vestiaire automne-hiver. Matière dense, bonne tenue, parfait en layering ou seul.',mots:['bordeaux','marron','hiver','tendance','casual','mode','vinted','seconde main'],low:10,mid:22,high:42},
+    'vert vif':         {cat:'Vêtement',brand:'Non identifiée',title:'Pièce Vert Vif — Tendance Statement',desc:'Vert vif pour une silhouette qui s\'affirme. Coupe nette, tissu respirant, coloris qui se porte avec le blanc, le beige ou le noir.',mots:['vert','vif','tendance','streetwear','coloré','mode','vinted','summer'],low:8,mid:18,high:32},
+    'kaki/olive':       {cat:'Vêtement',brand:'Non identifiée',title:'Pièce Kaki / Olive — Style Military Casual',desc:'Le kaki-olive s\'impose comme le neutre tendance par excellence. Polyvalent, robuste, il s\'associe naturellement au denim, au camel et au blanc.',mots:['kaki','olive','military','casual','chino','mode','tendance','vinted'],low:12,mid:24,high:45},
+    'bleu vif':         {cat:'Vêtement',brand:'Levi\'s / Tommy Hilfiger',title:'Pièce Bleue — Classique Indémodable',desc:'Le bleu reste la couleur reine du vestiaire casual-chic. Tissu de qualité, coupe soignée, applicable du bureau au week-end sans effort.',mots:['bleu','classique','marine','mode','casual','chic','vinted','denim'],low:10,mid:22,high:40},
+    'marine/denim':     {cat:'Denim',brand:'Levi\'s / Lee',title:'Pièce Denim / Marine — Qualité Premium',desc:'Denim épais au tombé impeccable. Coloris foncé qui associe l\'allure habillée au confort du jean. Un indémodable à saisir.',mots:['denim','marine','jean','bleu foncé','slim','vinted','ebay','mode'],low:15,mid:35,high:70},
+    'blanc/crème':      {cat:'Vêtement',brand:'Non identifiée',title:'Pièce Blanche / Crème — Minimalisme Chic',desc:'Le blanc immaculé incarne l\'élégance épurée. Tissu soigné, sans auréoles ni jaunissement, coupe minimaliste qui traverse toutes les tendances.',mots:['blanc','crème','minimaliste','chic','propre','tendance','mode','vinted'],low:8,mid:18,high:32},
+    'gris sombre':      {cat:'Vêtement',brand:'Non identifiée',title:'Pièce Gris Anthracite — Sophistication Neutre',desc:'L\'anthracite, entre le noir et le gris, offre une sophistication rare. Pièce polyvalente qui se porte en toutes occasions avec une aisance naturelle.',mots:['gris','anthracite','neutre','sobre','mode','casual','vinted','basique'],low:10,mid:22,high:40},
+    'jaune/moutarde':   {cat:'Accessoire / Vêtement',brand:'Non identifiée',title:'Pièce Jaune / Moutarde — Couleur Signature',desc:'La moutarde et le jaune s\'imposent comme les couleurs signature des garde-robes affirmées. Rare et recherché en seconde main.',mots:['jaune','moutarde','coloré','rare','tendance','statement','vinted','mode'],low:10,mid:20,high:38},
+    'violet/rose':      {cat:'Vêtement',brand:'Non identifiée',title:'Pièce Violet / Rose — Couleur Pop',desc:'Violet ou rose poudré, cette pièce ose la couleur avec caractère. Tissu doux, coloris séduisant qui apporte de la personnalité à n\'importe quel look.',mots:['violet','rose','pop','couleur','mode','tendance','féminin','vinted'],low:8,mid:18,high:34},
+    'orange/rouille':   {cat:'Vêtement',brand:'Non identifiée',title:'Pièce Orange / Rouille — Tendance Automne',desc:'L\'orange et la rouille s\'inscrivent parfaitement dans les tendances automne-hiver. Chaleureux, original, très recherché en occasion.',mots:['orange','rouille','automne','tendance','coloré','mode','vinted','rare'],low:10,mid:22,high:40},
+    'neutre':           {cat:'Article',brand:'Non identifiée',title:'Article en Excellent État — Opportunité Seconde Main',desc:'Pièce en très bon état général, entretenue avec soin. Prête à partir immédiatement. Premier arrivé, premier servi — ce type d\'article ne reste pas longtemps disponible.',mots:['occasion','seconde main','excellent état','bon plan','vinted','ebay','rare','collection'],low:10,mid:28,high:55},
+  };
+  const t = tpls[c] || tpls['neutre'];
+  return {
+    brand: t.brand,
+    category: t.cat,
+    title: t.title,
+    condition: 'Très bon état — quelques traces d\'usure normales, aucun défaut majeur',
+    description: t.desc,
+    price: {low:t.low,mid:t.mid,high:t.high},
+    keywords: t.mots,
+    _source: 'simulator',
+    _color: c,
+  };
 };
 </script>
 
-<!-- ══════════════════════════════════════════════
-     REACT APP
-══════════════════════════════════════════════ -->
+<!--═══════════════════════════════════════════════════════
+    REACT APP
+═══════════════════════════════════════════════════════-->
 <script type="text/babel">
 const { useState, useCallback, useRef, useEffect, useMemo } = React;
 const sb = window._sb;
 
-/* ══════════ ANALYSE IMAGE ══════════ */
-async function analyzeImage(base64, mediaType) {
-  /* 1. Détecter couleur dominante (toujours, pour enrichir le prompt) */
-  const color = await window._detectColor(base64);
+/*══════════════════════════════════════
+  ANALYSE IA — Claude Vision + Simulateur
+══════════════════════════════════════*/
+async function analyzeImage(base64, mediaType, userId) {
+  const color = await window._dominantColor(base64);
 
-  /* 2. Tentative API Claude */
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 1024,
+        max_tokens: 1200,
+        system: `Tu es un expert en revente en ligne, spécialiste Vinted, Leboncoin et eBay en France. Tu analyses des photos d'articles de seconde main avec la précision d'un acheteur professionnel. Tu identifies la marque, le modèle, l'état, la matière et tu estimes les prix du marché réel en France.`,
         messages: [{
           role: 'user',
           content: [
-            { type: 'image', source: { type: 'base64', media_type: mediaType, data: base64 } },
-            { type: 'text', text:
-`Tu es un expert en vente en ligne et copywriting premium pour Vinted et eBay.
-Contexte couleur détectée automatiquement : ${color.name} (${color.hex||''}).
-Analyse l'image et génère une fiche produit optimisée.
-Réponds UNIQUEMENT en JSON valide, sans markdown, sans commentaires :
-{"title":"<titre accrocheur SEO max 65 chars>","description":"<2-3 phrases copywriting haut de gamme, mentionner état et caractéristiques visibles>","price":{"low":<int>,"mid":<int>,"high":<int>},"keywords":["<mot1>","<mot2>","<mot3>","<mot4>","<mot5>","<mot6>","<mot7>","<mot8>"]}
-Prix en euros entiers réalistes pour la revente seconde main en France.`
-            }
+            {type:'image',source:{type:'base64',media_type:mediaType,data:base64}},
+            {type:'text',text:`MISSION : Analyse cette photo d'article à vendre.
+
+RÈGLE CRITIQUE : Si tu détectes plusieurs objets DISTINCTS (ex: une chaussure + une veste + un sac) qui n'appartiennent pas au même ensemble, réponds UNIQUEMENT avec ce JSON exact :
+{"error":"multi_object","message":"Un seul article par photo SVP. Je détecte plusieurs objets différents sur cette image."}
+
+Sinon, génère une fiche produit complète en JSON strict (sans markdown, sans commentaires) :
+{
+  "brand": "<marque exacte ou 'Non identifiée'>",
+  "category": "<catégorie précise : Vêtement homme/femme, Chaussures, Électronique, etc.>",
+  "title": "<titre accrocheur SEO max 65 chars — inclure marque si identifiée>",
+  "condition": "<description de l'état visible : Neuf avec étiquette / Très bon état / Bon état / État correct>",
+  "description": "<3-4 phrases naturelles et humanisées. Mentionner : état, matière si visible, taille si lisible, style. Ton vendeur passionné, pas robotique. Finir par une accroche motivante.>",
+  "price": {"low":<int€ prix bas raisonnable marché FR>,"mid":<int€ prix recommandé réaliste>,"high":<int€ si très bon état ou rare>},
+  "keywords": ["<8 mots-clés pertinents pour Vinted/eBay, incluant marque si connue>"],
+  "color_detected": "${color.name}"
+}
+
+Contexte couleur détectée automatiquement : ${color.name} (${color.hex}).
+Prix en euros entiers, RÉALISTES pour le marché de la revente seconde main en France en 2024-2025.`}
           ]
         }]
       })
     });
-    if (!res.ok) throw new Error('api_err_'+res.status);
+
+    if (!res.ok) throw new Error('api_'+res.status);
     const d = await res.json();
     const txt = (d.content||[]).find(b=>b.type==='text')?.text||'';
-    const parsed = JSON.parse(txt.replace(/```json|```/g,'').trim());
+    const clean = txt.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(clean);
+
+    if (parsed.error === 'multi_object') {
+      return { _error: 'multi_object', _message: parsed.message };
+    }
+
     parsed._source = 'claude';
+    if (userId) await window._logAnalysis(userId);
     return parsed;
+
   } catch(_) {
-    /* 3. Fallback intelligent basé sur couleur */
-    await new Promise(r=>setTimeout(r,2800)); /* délai simulé réaliste */
-    const mock = window._buildMock(color);
-    mock._source = 'simulator';
-    mock._colorDetected = color.name;
+    await new Promise(r=>setTimeout(r,2800));
+    const mock = window._smartMock(color);
+    if (userId) await window._logAnalysis(userId);
     return mock;
   }
 }
 
-/* ══════════ ICONS ══════════ */
-const Ic = {
+/*══════════════════════════════════════
+  ICONS
+══════════════════════════════════════*/
+const I = {
   Spark:  ({s=20,c='currentColor'})=><svg width={s} height={s} viewBox="0 0 24 24" fill={c}><path d="M12 2l1.5 7.5L21 11l-7.5 1.5L12 20l-1.5-7.5L3 11l7.5-1.5L12 2z"/></svg>,
   Google: ()=><svg width="17" height="17" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>,
-  Upload: ()=><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(0,122,255,0.45)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>,
-  Check:  ({s=15})=><svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="#007AFF" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>,
+  Upload: ()=><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(0,122,255,0.44)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/></svg>,
+  Check:  ({s=14,c='#007AFF'})=><svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>,
   Tag:    ()=><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>,
-  X:      ({s=14})=><svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
-  Crown:  ({s=17})=><svg width={s} height={s} viewBox="0 0 24 24" fill="currentColor"><path d="M2 19l2-10 5 5 3-8 3 8 5-5 2 10H2z"/></svg>,
-  Mail:   ()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>,
-  Users:  ()=><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>,
-  Shield: ()=><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+  X:      ({s=13})=><svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+  Crown:  ({s=16})=><svg width={s} height={s} viewBox="0 0 24 24" fill="currentColor"><path d="M2 19l2-10 5 5 3-8 3 8 5-5 2 10H2z"/></svg>,
+  Mail:   ()=><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>,
+  Shield: ()=><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
   Copy:   ()=><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>,
-  Stripe: ()=><svg width="18" height="18" viewBox="0 0 24 24" fill="#635BFF"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.929 3.477 1.567 3.477 2.591 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg>,
-  Admin:  ()=><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>,
+  Stripe: ()=><svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.929 3.477 1.567 3.477 2.591 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg>,
+  Users:  ()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>,
+  Chart:  ()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
+  News:   ()=><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>,
   Trash:  ()=><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>,
+  Refresh:()=><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>,
+  Edit:   ()=><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>,
 };
 
-/* ══════════ AI LOADER ══════════ */
+/*══════════════════════════════════════
+  AI LOADER
+══════════════════════════════════════*/
 function AILoader() {
-  const msgs = ['Analyse visuelle en cours…',"Détection de l'objet…",'Rédaction du copywriting premium…','Estimation du prix marché…','Génération des mots-clés SEO…'];
-  const [step,setStep] = useState(0);
-  useEffect(()=>{const t=setInterval(()=>setStep(s=>Math.min(s+1,msgs.length-1)),850);return()=>clearInterval(t);},[]);
+  const msgs=['Détection de l\'objet en cours…','Identification de la marque…','Analyse de l\'état et des matières…','Recherche prix marché France…','Rédaction du copywriting…'];
+  const [step,setStep]=useState(0);
+  useEffect(()=>{const t=setInterval(()=>setStep(s=>Math.min(s+1,msgs.length-1)),900);return()=>clearInterval(t);},[]);
   return (
     <div style={{textAlign:'center',padding:'52px 24px'}}>
       <div style={{position:'relative',display:'inline-flex',alignItems:'center',justifyContent:'center',width:92,height:92,marginBottom:24}}>
-        <div style={{position:'absolute',width:92,height:92,borderRadius:'50%',border:'1.5px solid rgba(0,122,255,.18)',borderTopColor:'#007AFF',animation:'spin-cw 1s linear infinite'}}/>
+        <div style={{position:'absolute',width:92,height:92,borderRadius:'50%',border:'1.5px solid rgba(0,122,255,.16)',borderTopColor:'#007AFF',animation:'spin-cw 1s linear infinite'}}/>
         <div style={{position:'absolute',width:68,height:68,borderRadius:'50%',border:'1.5px solid rgba(0,212,255,.1)',borderBottomColor:'#00D4FF',animation:'spin-ccw 1.5s linear infinite'}}/>
-        <div style={{position:'absolute',width:46,height:46,borderRadius:'50%',border:'1.5px solid rgba(0,122,255,.07)',borderLeftColor:'rgba(0,122,255,.4)',animation:'spin-cw 2.2s linear infinite'}}/>
-        <Ic.Spark s={17} c="#007AFF"/>
+        <div style={{position:'absolute',width:46,height:46,borderRadius:'50%',border:'1.5px solid rgba(0,122,255,.06)',borderLeftColor:'rgba(0,122,255,.38)',animation:'spin-cw 2.2s linear infinite'}}/>
+        <I.Spark s={16} c="#007AFF"/>
       </div>
-      <p style={{fontFamily:'var(--fd)',fontWeight:700,fontSize:16,color:'var(--text)',marginBottom:6}}>L'IA analyse votre objet</p>
-      <p style={{fontSize:13,color:'var(--muted)',minHeight:20,transition:'opacity .3s'}}>{msgs[step]}</p>
+      <p style={{fontFamily:'var(--fd)',fontWeight:700,fontSize:16,color:'var(--t1)',marginBottom:7}}>L'IA analyse votre article</p>
+      <p style={{fontSize:13,color:'var(--t2)',minHeight:20}}>{msgs[step]}</p>
     </div>
   );
 }
 
-/* ══════════ RESULT CARD ══════════ */
+/*══════════════════════════════════════
+  RESULT CARD — Structuré & Humanisé
+══════════════════════════════════════*/
 function ResultCard({result}) {
   const [cp,setCp] = useState(null);
-  const copy=(text,k)=>{try{navigator.clipboard?.writeText(text);}catch(_){}setCp(k);setTimeout(()=>setCp(null),1800);};
+  const copy=(txt,k)=>{try{navigator.clipboard?.writeText(txt);}catch(_){}setCp(k);setTimeout(()=>setCp(null),1800);};
+
+  const fullText = [
+    result.title,
+    result.condition&&`État : ${result.condition}`,
+    result.description,
+    `Prix recommandé : ${result.price?.mid}€`,
+    (result.keywords||[]).map(k=>'#'+k).join(' ')
+  ].filter(Boolean).join('\n\n');
+
   return (
     <div style={{display:'flex',flexDirection:'column',gap:12}}>
       {result._source==='simulator'&&(
-        <div className="wa fu" style={{display:'flex',alignItems:'center',gap:8}}>
+        <div className="wa fu" style={{display:'flex',alignItems:'center',gap:8,fontSize:12}}>
           <span>🎨</span>
-          <span>Simulateur IA actif — Couleur détectée : <strong>{result._colorDetected}</strong>. Connectez une clé Claude pour l'analyse réelle.</span>
+          <span>Mode Simulateur — Couleur détectée : <strong>{result._color}</strong>. Ajoutez une clé Claude API pour l'analyse réelle avec détection de marque.</span>
         </div>
       )}
-      <div className="g1 fu1" style={{borderRadius:'var(--r)',padding:'20px 24px'}}>
-        <p className="lbl" style={{marginBottom:10}}>✦ Titre optimisé</p>
-        <p style={{fontFamily:'var(--fd)',fontSize:19,fontWeight:700,color:'var(--text)',lineHeight:1.3,marginBottom:12}}>{result.title}</p>
-        <button className="btn-o" style={{fontSize:12,padding:'5px 14px'}} onClick={()=>copy(result.title,'t')}><Ic.Copy/>{cp==='t'?'Copié !':'Copier'}</button>
+
+      {/* Marque & Catégorie */}
+      {(result.brand||result.category)&&(
+        <div className="fu1" style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+          {result.brand&&<span className="tag"><I.Check s={11} c="#6DBAFF"/>{result.brand}</span>}
+          {result.category&&<span className="tag" style={{background:'rgba(48,209,88,.1)',borderColor:'rgba(48,209,88,.28)',color:'var(--green)'}}>{result.category}</span>}
+        </div>
+      )}
+
+      {/* Titre */}
+      <div className="g1 fu2" style={{borderRadius:'var(--r)',padding:'20px 22px'}}>
+        <p className="lbl" style={{marginBottom:10}}>✦ Titre optimisé SEO</p>
+        <p style={{fontFamily:'var(--fd)',fontSize:19,fontWeight:700,lineHeight:1.3,marginBottom:12}}>{result.title}</p>
+        <button className="btn-o" style={{fontSize:12,padding:'5px 13px'}} onClick={()=>copy(result.title,'t')}>
+          <I.Copy/>{cp==='t'?'Copié !':'Copier'}
+        </button>
       </div>
-      <div className="g1 fu2" style={{borderRadius:'var(--r)',padding:'20px 24px'}}>
-        <p className="lbl" style={{marginBottom:10}}>✍ Description persuasive</p>
-        <p style={{fontSize:14,lineHeight:1.8,color:'rgba(240,240,248,.68)',marginBottom:12}}>{result.description}</p>
-        <button className="btn-o" style={{fontSize:12,padding:'5px 14px'}} onClick={()=>copy(result.description,'d')}><Ic.Copy/>{cp==='d'?'Copié !':'Copier'}</button>
+
+      {/* État */}
+      {result.condition&&(
+        <div className="g1 fu3" style={{borderRadius:'var(--r)',padding:'18px 22px'}}>
+          <p className="lbl" style={{marginBottom:8}}>📋 État de l'article</p>
+          <p style={{fontSize:14,color:'var(--t2)',lineHeight:1.7}}>{result.condition}</p>
+        </div>
+      )}
+
+      {/* Description */}
+      <div className="g1 fu3" style={{borderRadius:'var(--r)',padding:'20px 22px'}}>
+        <p className="lbl" style={{marginBottom:10}}>✍ Description humanisée</p>
+        <p style={{fontSize:14,lineHeight:1.82,color:'rgba(239,239,245,.68)',marginBottom:12}}>{result.description}</p>
+        <button className="btn-o" style={{fontSize:12,padding:'5px 13px'}} onClick={()=>copy(result.description,'d')}>
+          <I.Copy/>{cp==='d'?'Copié !':'Copier'}
+        </button>
       </div>
-      <div className="g1 fu3" style={{borderRadius:'var(--r)',padding:'20px 24px'}}>
-        <p className="lbl" style={{marginBottom:14}}>💰 Estimation de prix</p>
-        <div style={{display:'flex',gap:10}}>
-          {[{l:'Bas',v:result.price?.low},{l:'Recommandé',v:result.price?.mid,h:true},{l:'Haut',v:result.price?.high}].map(p=>(
+
+      {/* Prix */}
+      <div className="g1 fu4" style={{borderRadius:'var(--r)',padding:'20px 22px'}}>
+        <p className="lbl" style={{marginBottom:14}}>💰 Estimation prix marché France</p>
+        <div style={{display:'flex',gap:10,marginBottom:10}}>
+          {[{l:'Départ rapide',v:result.price?.low},{l:'Prix recommandé',v:result.price?.mid,h:true},{l:'Prix max marché',v:result.price?.high}].map(p=>(
             <div key={p.l} className={`pc${p.h?' hi':''}`}>
-              <div style={{fontFamily:'var(--fd)',fontSize:22,fontWeight:800,color:p.h?'#007AFF':'var(--text)'}}>{p.v}€</div>
-              <div style={{fontSize:11,marginTop:4,color:p.h?'rgba(0,122,255,.65)':'var(--muted)'}}>{p.l}</div>
+              <div style={{fontFamily:'var(--fd)',fontSize:22,fontWeight:800,color:p.h?'#007AFF':'var(--t1)'}}>{p.v}€</div>
+              <div style={{fontSize:10,marginTop:4,color:p.h?'rgba(0,122,255,.65)':'var(--t2)',lineHeight:1.3}}>{p.l}</div>
             </div>
           ))}
         </div>
+        <p style={{fontSize:11,color:'var(--t3)'}}>Basé sur les tendances marché Vinted France 2024-2025</p>
       </div>
-      <div className="g1 fu4" style={{borderRadius:'var(--r)',padding:'20px 24px'}}>
-        <p className="lbl" style={{marginBottom:12,display:'flex',alignItems:'center',gap:6}}><Ic.Tag/> Mots-clés Vinted / eBay</p>
-        <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+
+      {/* Mots-clés */}
+      <div className="g1 fu5" style={{borderRadius:'var(--r)',padding:'20px 22px'}}>
+        <p className="lbl" style={{marginBottom:12,display:'flex',alignItems:'center',gap:6}}><I.Tag/> Mots-clés Vinted / eBay</p>
+        <div style={{display:'flex',flexWrap:'wrap',gap:7,marginBottom:12}}>
           {(result.keywords||[]).map(kw=>(
-            <span key={kw} className="tag" style={{cursor:'pointer'}} onClick={()=>copy(kw,'kw'+kw)}>{cp==='kw'+kw?'✓ ':'#'}{kw}</span>
+            <span key={kw} className="tag" style={{cursor:'pointer'}} onClick={()=>copy(kw,'kw'+kw)}>
+              {cp==='kw'+kw?'✓ ':'#'}{kw}
+            </span>
           ))}
         </div>
-        <div style={{display:'flex',gap:8,marginTop:12}}>
-          <button className="btn-o" style={{fontSize:12,padding:'5px 14px'}} onClick={()=>copy((result.keywords||[]).map(k=>'#'+k).join(' '),'kwall')}>
-            <Ic.Copy/>{cp==='kwall'?'Copié !':'Copier tous'}
+        <div style={{display:'flex',gap:8}}>
+          <button className="btn-o" style={{fontSize:12,padding:'5px 13px'}} onClick={()=>copy((result.keywords||[]).map(k=>'#'+k).join(' '),'kwall')}>
+            <I.Copy/>{cp==='kwall'?'Tout copié !':'Copier tous les tags'}
+          </button>
+          <button className="btn-o" style={{fontSize:12,padding:'5px 13px'}} onClick={()=>copy(fullText,'all')}>
+            <I.Copy/>{cp==='all'?'Copié !':'Tout copier'}
           </button>
         </div>
       </div>
@@ -425,94 +577,73 @@ function ResultCard({result}) {
   );
 }
 
-/* ══════════ AUTH MODAL ══════════ */
+/*══════════════════════════════════════
+  AUTH MODAL
+══════════════════════════════════════*/
 function AuthModal({onClose}) {
-  const [tab,setTab]     = useState('google');
-  const [mode,setMode]   = useState('login');
-  const [email,setEmail] = useState('');
-  const [pass,setPass]   = useState('');
-  const [err,setErr]     = useState('');
-  const [info,setInfo]   = useState('');
-  const [busy,setBusy]   = useState(false);
+  const [tab,setTab]=useState('google');
+  const [mode,setMode]=useState('login');
+  const [email,setEmail]=useState('');
+  const [pass,setPass]=useState('');
+  const [err,setErr]=useState('');
+  const [info,setInfo]=useState('');
+  const [busy,setBusy]=useState(false);
+  const reset=()=>{setErr('');setInfo('');};
 
-  const reset = ()=>{setErr('');setInfo('');};
-
-  const googleLogin = async()=>{
-    setBusy(true); reset();
-    const redirectTo = window.location.origin + window.location.pathname;
-    const {error} = await sb.auth.signInWithOAuth({
+  const googleLogin=async()=>{
+    setBusy(true);reset();
+    const {error}=await sb.auth.signInWithOAuth({
       provider:'google',
-      options:{
-        redirectTo,
-        queryParams:{access_type:'offline',prompt:'consent'}
-      }
+      options:{redirectTo:window.location.origin+window.location.pathname,queryParams:{prompt:'consent'}}
     });
-    if (error) { setErr(window._authErr(error.message)); setBusy(false); }
-    /* Si OK : redirection automatique */
+    if(error){setErr(window._ae(error.message));setBusy(false);}
   };
 
-  const emailAction = async()=>{
-    if (!email.trim()||!pass.trim()){setErr('Veuillez remplir tous les champs.');return;}
-    setBusy(true); reset();
-    if (mode==='login') {
-      const {error} = await sb.auth.signInWithPassword({email:email.trim(),password:pass});
-      if (error) setErr(window._authErr(error.message));
-      else onClose();
-    } else {
-      const {error} = await sb.auth.signUp({
-        email:email.trim(), password:pass,
-        options:{emailRedirectTo: window.location.origin+window.location.pathname}
-      });
-      if (error) setErr(window._authErr(error.message));
-      else { setInfo('📧 Email de confirmation envoyé. Vérifiez votre boîte, puis connectez-vous.'); setMode('login'); }
+  const emailAction=async()=>{
+    if(!email.trim()||!pass.trim()){setErr('Remplissez tous les champs.');return;}
+    setBusy(true);reset();
+    if(mode==='login'){
+      const{error}=await sb.auth.signInWithPassword({email:email.trim(),password:pass});
+      if(error)setErr(window._ae(error.message));else onClose();
+    }else{
+      const{error}=await sb.auth.signUp({email:email.trim(),password:pass,options:{emailRedirectTo:window.location.origin+window.location.pathname}});
+      if(error)setErr(window._ae(error.message));
+      else{setInfo('📧 Email de confirmation envoyé. Vérifiez votre boîte mail, puis connectez-vous.');setMode('login');}
     }
     setBusy(false);
   };
 
-  const forgotPwd = async()=>{
-    if (!email.trim()){setErr("Entrez votre email d'abord.");return;}
-    setBusy(true); reset();
-    const {error} = await sb.auth.resetPasswordForEmail(email.trim(),{
-      redirectTo: window.location.origin+window.location.pathname+'?reset=1'
-    });
+  const forgotPwd=async()=>{
+    if(!email.trim()){setErr("Entrez votre email d'abord.");return;}
+    setBusy(true);reset();
+    const{error}=await sb.auth.resetPasswordForEmail(email.trim(),{redirectTo:window.location.origin+window.location.pathname+'?reset=1'});
     setBusy(false);
-    if (error) setErr(window._authErr(error.message));
-    else setInfo('📧 Lien de réinitialisation envoyé à '+email.trim());
+    if(error)setErr(window._ae(error.message));else setInfo('📧 Lien de réinitialisation envoyé à '+email.trim());
   };
 
-  return (
+  return(
     <div className="bd" onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="g2 fu" style={{borderRadius:'var(--r-xl)',padding:'32px 28px',maxWidth:410,width:'100%'}}>
+      <div className="g2 fu" style={{borderRadius:'var(--rxl)',padding:'32px 28px',maxWidth:410,width:'100%'}}>
         <div style={{textAlign:'center',marginBottom:20}}>
-          <div style={{width:52,height:52,borderRadius:16,background:'linear-gradient(135deg,#007AFF,#00D4FF)',display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:22,marginBottom:12}}>⚡</div>
-          <p style={{fontFamily:'var(--fd)',fontSize:20,fontWeight:700,color:'var(--text)',marginBottom:4}}>Connexion à FlashSell.ai</p>
-          <p style={{fontSize:13,color:'var(--muted)'}}>1 analyse gratuite · Aucune carte requise</p>
+          <div style={{width:52,height:52,borderRadius:16,background:'linear-gradient(135deg,#007AFF,#00D4FF)',display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:22,marginBottom:12,boxShadow:'0 0 24px rgba(0,122,255,.35)'}}>⚡</div>
+          <p style={{fontFamily:'var(--fd)',fontSize:20,fontWeight:700,marginBottom:4}}>Connexion à FlashSell.ai</p>
+          <p style={{fontSize:13,color:'var(--t2)'}}>1 analyse gratuite · Aucune carte requise</p>
         </div>
-        {/* Tabs */}
-        <div style={{display:'flex',borderBottom:'1px solid var(--border)',marginBottom:20}}>
-          <button className={`atab${tab==='google'?' on':''}`} onClick={()=>{setTab('google');reset();}}>
-            <Ic.Google/>&nbsp; Google
-          </button>
-          <button className={`atab${tab==='email'?' on':''}`} onClick={()=>{setTab('email');reset();}}>
-            <Ic.Mail/>&nbsp; Email
-          </button>
+        <div style={{display:'flex',borderBottom:'1px solid var(--b1)',marginBottom:20}}>
+          <button className={`atab${tab==='google'?' on':''}`} onClick={()=>{setTab('google');reset();}}><I.Google/>&nbsp;Google</button>
+          <button className={`atab${tab==='email'?' on':''}`} onClick={()=>{setTab('email');reset();}}><I.Mail/>&nbsp;Email</button>
         </div>
 
         {tab==='google'&&(
           <div>
             <button className="btn" onClick={googleLogin} disabled={busy} style={{width:'100%',padding:'13px',borderRadius:'var(--r)',gap:10,fontSize:15}}>
-              <Ic.Google/>{busy?'Redirection en cours…':'Continuer avec Google'}
+              <I.Google/>{busy?'Redirection…':'Continuer avec Google'}
             </button>
-            <p style={{fontSize:11,color:'var(--dim)',textAlign:'center',marginTop:10,lineHeight:1.6}}>
-              Vous serez redirigé vers Google, puis revenu automatiquement.
-            </p>
             {err&&<div className="er fu" style={{marginTop:10}}>{err}</div>}
-            <div className="wa" style={{marginTop:14}}>
-              <strong style={{display:'block',marginBottom:5}}>⚙️ Configuration Supabase requise</strong>
-              Dashboard → Authentication → URL Configuration :<br/>
-              • <code style={{background:'rgba(255,255,255,.06)',padding:'1px 6px',borderRadius:3,fontSize:11}}>Site URL</code> → votre domaine Vercel<br/>
-              • <code style={{background:'rgba(255,255,255,.06)',padding:'1px 6px',borderRadius:3,fontSize:11}}>Redirect URLs</code> → votre domaine Vercel<br/>
-              • Providers → Google : activez et collez vos credentials Google Cloud
+            <div className="wa" style={{marginTop:14,fontSize:11.5}}>
+              <strong>⚙️ Config requise dans Supabase :</strong><br/>
+              Authentication → URL Config → Site URL + Redirect URLs → votre URL Vercel<br/>
+              Providers → Google → activez + credentials Google Cloud
             </div>
           </div>
         )}
@@ -524,202 +655,285 @@ function AuthModal({onClose}) {
               <button className={`mbtn${mode==='signup'?' on':''}`} onClick={()=>{setMode('signup');reset();}}>Créer un compte</button>
             </div>
             <input className="inp" type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="adresse@email.com" autoComplete="email"/>
-            <input className="inp" type="password" value={pass} onChange={e=>setPass(e.target.value)} placeholder={mode==='signup'?'Mot de passe (6 car. min)':'Mot de passe'} autoComplete={mode==='login'?'current-password':'new-password'} onKeyDown={e=>e.key==='Enter'&&emailAction()}/>
-            {err  &&<div className="er fu">{err}</div>}
-            {info &&<div className="ok fu" style={{fontSize:13}}>{info}</div>}
+            <input className="inp" type="password" value={pass} onChange={e=>setPass(e.target.value)}
+              placeholder={mode==='signup'?'Mot de passe (6 car. min)':'Mot de passe'}
+              autoComplete={mode==='login'?'current-password':'new-password'}
+              onKeyDown={e=>e.key==='Enter'&&emailAction()}/>
+            {err&&<div className="er fu">{err}</div>}
+            {info&&<div className="ok fu" style={{fontSize:13}}>{info}</div>}
             <button className="btn" onClick={emailAction} disabled={busy} style={{width:'100%',padding:'13px',borderRadius:'var(--r)',marginTop:2}}>
               {busy?'…':mode==='login'?'Se connecter →':'Créer mon compte →'}
             </button>
             {mode==='login'&&(
-              <button onClick={forgotPwd} disabled={busy} style={{background:'none',border:'none',color:'var(--dim)',fontSize:12,cursor:'pointer',textDecoration:'underline',textAlign:'left',padding:0}}>
+              <button onClick={forgotPwd} disabled={busy} style={{background:'none',border:'none',color:'var(--t3)',fontSize:12,cursor:'pointer',textDecoration:'underline',textAlign:'left',padding:0}}>
                 Mot de passe oublié ?
               </button>
             )}
           </div>
         )}
-        <button onClick={onClose} style={{display:'block',width:'100%',marginTop:18,background:'none',border:'none',color:'var(--dim)',fontSize:12,cursor:'pointer',padding:6}}>
-          Fermer
-        </button>
+        <button onClick={onClose} style={{display:'block',width:'100%',marginTop:18,background:'none',border:'none',color:'var(--t3)',fontSize:12,cursor:'pointer',padding:6}}>Fermer</button>
       </div>
     </div>
   );
 }
 
-/* ══════════ PAYWALL MODAL ══════════ */
-function PaywallModal({userId, userEmail, onClose, onUnlock}) {
-  const [promo,setPromo] = useState('');
-  const [pSt,setPSt]     = useState(null); // 'ok'|'err'
-  const [busy,setBusy]   = useState(false);
+/*══════════════════════════════════════
+  PAYWALL MODAL
+══════════════════════════════════════*/
+function PaywallModal({userId,userEmail,onClose,onUnlock}) {
+  const [promo,setPromo]=useState('');
+  const [pSt,setPSt]=useState(null);
 
-  const checkPromo = ()=>{
-    if (promo.trim().toLowerCase()==='flayc0') {
-      if (userId) window._LS.setPro(userId);
-      setPSt('ok');
-      setTimeout(()=>{ onUnlock(); onClose(); },2000);
-    } else setPSt('err');
+  const checkPromo=()=>{
+    if(promo.trim().toLowerCase()==='flayc0'){
+      if(userId)window._LS2.setCode(userId);
+      setPSt('ok');setTimeout(()=>{onUnlock();onClose();},1900);
+    }else setPSt('err');
   };
 
-  const goStripe = ()=>{
-    if (!window.STRIPE_LINK||window.STRIPE_LINK.includes('VOTRE_LIEN')) {
-      alert('⚠️ Configurez STRIPE_LINK dans le code source avant de déployer.');
-      return;
-    }
-    window.open(window.STRIPE_LINK,'_blank');
+  const goStripe=()=>{
+    if(STRIPE_LINK.includes('VOTRE_LIEN')){alert('Configurez STRIPE_LINK dans le code source.');return;}
+    window.open(STRIPE_LINK,'_blank');
   };
 
-  const perks = ['Analyses IA illimitées','Copywriting premium avec vision réelle','Estimation multi-plateformes','Export fiches produit','Support prioritaire 24h'];
-  return (
+  return(
     <div className="bd" onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="g2 fu" style={{borderRadius:'var(--r-xl)',padding:'36px 32px',maxWidth:430,width:'100%'}}>
+      <div className="g2 fu" style={{borderRadius:'var(--rxl)',padding:'36px 30px',maxWidth:430,width:'100%'}}>
         <div style={{textAlign:'center',marginBottom:22}}>
-          <div style={{width:66,height:66,borderRadius:20,background:'linear-gradient(135deg,#FFD60A,#FF9F0A)',display:'inline-flex',alignItems:'center',justifyContent:'center',animation:'pulse-ring 2s infinite',marginBottom:16}}>
-            <Ic.Crown s={26}/>
+          <div style={{width:66,height:66,borderRadius:20,background:'linear-gradient(135deg,#FFD60A,#FF9F0A)',display:'inline-flex',alignItems:'center',justifyContent:'center',animation:'pulse-ring 2s infinite',marginBottom:14}}>
+            <I.Crown s={26}/>
           </div>
-          <p style={{fontFamily:'var(--fd)',fontSize:22,fontWeight:800,color:'var(--text)',marginBottom:5}}>Passez à FlashSell Pro</p>
-          <p style={{fontSize:13,color:'var(--muted)'}}>Votre essai gratuit est terminé · Débloquez l'accès illimité</p>
+          <p style={{fontFamily:'var(--fd)',fontSize:22,fontWeight:800,marginBottom:5}}>Passez à FlashSell Pro</p>
+          <p style={{fontSize:13,color:'var(--t2)'}}>Votre essai gratuit est terminé · Débloquez l'illimité</p>
         </div>
-
-        <div className="g1" style={{borderRadius:'var(--r)',padding:'20px 24px',marginBottom:18}}>
+        <div className="g1" style={{borderRadius:'var(--r)',padding:'20px 22px',marginBottom:18}}>
           <div style={{display:'flex',alignItems:'baseline',justifyContent:'center',gap:6,marginBottom:16}}>
-            <span style={{fontFamily:'var(--fd)',fontSize:48,fontWeight:800,background:'linear-gradient(135deg,#FFD60A,#FF9F0A)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',lineHeight:1}}>9,99€</span>
-            <span style={{fontSize:14,color:'var(--muted)'}}>/mois</span>
+            <span style={{fontFamily:'var(--fd)',fontSize:46,fontWeight:800,background:'linear-gradient(135deg,#FFD60A,#FF9F0A)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',lineHeight:1}}>9,99€</span>
+            <span style={{fontSize:14,color:'var(--t2)'}}>/mois</span>
           </div>
-          <div style={{display:'flex',flexDirection:'column',gap:7}}>
-            {perks.map(p=><div key={p} style={{display:'flex',alignItems:'center',gap:9,fontSize:13,color:'rgba(240,240,248,.72)'}}><Ic.Check s={14}/>{p}</div>)}
-          </div>
+          {['Analyses IA illimitées','Détection marque & modèle','Estimation prix marché réel','Export fiche produit complète','Support prioritaire'].map(p=>(
+            <div key={p} style={{display:'flex',alignItems:'center',gap:9,fontSize:13,color:'rgba(239,239,245,.7)',marginBottom:6}}>
+              <I.Check s={13}/>{p}
+            </div>
+          ))}
         </div>
-
-        {/* Stripe CTA */}
         <button className="btn-stripe" onClick={goStripe} style={{width:'100%',padding:'14px',fontSize:15,borderRadius:'var(--r)',marginBottom:14}}>
-          <Ic.Stripe/> Débloquer FlashSell Pro →
+          <I.Stripe/> Débloquer FlashSell Pro →
         </button>
-
-        {/* Promo code */}
         <div className="div">ou avec un code promo</div>
         <div style={{display:'flex',gap:8,marginBottom:8}}>
-          <input className="inp" type="text" value={promo} onChange={e=>setPromo(e.target.value)} onKeyDown={e=>e.key==='Enter'&&checkPromo()} placeholder="Code promo (ex: FLASH2024)"/>
-          <button className="btn-o" onClick={checkPromo} style={{padding:'0 16px',flexShrink:0,whiteSpace:'nowrap'}}>Valider</button>
+          <input className="inp" type="text" value={promo} onChange={e=>setPromo(e.target.value)} onKeyDown={e=>e.key==='Enter'&&checkPromo()} placeholder="Code promo"/>
+          <button className="btn-o" onClick={checkPromo} style={{padding:'0 16px',flexShrink:0}}>Valider</button>
         </div>
         {pSt==='ok'&&<div className="ok fu">🎉 1 MOIS GRATUIT ACTIVÉ !</div>}
-        {pSt==='err'&&<div className="er fu">Code invalide. Réessayez ou contactez le support.</div>}
-
-        <button onClick={onClose} style={{display:'block',width:'100%',marginTop:14,background:'none',border:'none',color:'var(--dim)',fontSize:13,cursor:'pointer',padding:8}}>
-          Continuer sans Pro
-        </button>
+        {pSt==='err'&&<div className="er fu">Code invalide.</div>}
+        <button onClick={onClose} style={{display:'block',width:'100%',marginTop:14,background:'none',border:'none',color:'var(--t3)',fontSize:13,cursor:'pointer',padding:8}}>Continuer sans Pro</button>
       </div>
     </div>
   );
 }
 
-/* ══════════ ADMIN DASHBOARD ══════════ */
-function AdminPanel({session, onClose}) {
-  const [newEmail,setNewEmail] = useState('');
-  const [msg,setMsg]           = useState('');
-  const [msgType,setMsgType]   = useState('ok');
-  const [proList,setProList]   = useState(window._LS.getProList());
-  const [tab,setTab]           = useState('stats');
-
-  /* Simulated stats */
-  const stats = {
-    totalUsers: 47,
-    proUsers: proList.length + 3,
-    analysesToday: 23,
-    revenue: (proList.length * 9.99 + 25.97).toFixed(2),
-  };
-
-  const grantPro = ()=>{
-    if (!newEmail.trim()||!newEmail.includes('@')){setMsg('Email invalide.');setMsgType('er');return;}
-    window._LS.addProEmail(newEmail.trim());
-    setProList(window._LS.getProList());
-    setMsg(`✅ Accès Pro activé pour ${newEmail.trim()}`);
-    setMsgType('ok');
-    setNewEmail('');
-  };
-
-  const revoke = (email)=>{
-    window._LS.removeProEmail(email);
-    setProList(window._LS.getProList());
-    setMsg(`❌ Accès Pro révoqué : ${email}`);
-    setMsgType('er');
-  };
-
+/*══════════════════════════════════════
+  NEWS / ROADMAP (Markdown-like)
+══════════════════════════════════════*/
+function RoadmapView({content}) {
+  const lines = (content||'').split('\n');
   return (
+    <div style={{display:'flex',flexDirection:'column',gap:8}}>
+      {lines.map((line,i)=>{
+        if(line.startsWith('## ')) return <p key={i} style={{fontFamily:'var(--fd)',fontSize:18,fontWeight:700,color:'var(--t1)',marginTop:i>0?8:0}}>{line.replace('## ','')}</p>;
+        if(line.startsWith('**')&&line.endsWith('**')) return <p key={i} style={{fontWeight:700,fontSize:14,color:'var(--t1)',marginTop:6}}>{line.replace(/\*\*/g,'')}</p>;
+        if(line.startsWith('- ')) return <div key={i} style={{display:'flex',gap:8,fontSize:13,color:'var(--t2)',paddingLeft:4}}><span style={{color:'var(--blue)',flexShrink:0}}>→</span>{line.slice(2)}</div>;
+        if(line.trim()==='') return <div key={i} style={{height:6}}/>;
+        return <p key={i} style={{fontSize:13,color:'var(--t2)',lineHeight:1.65}}>{line}</p>;
+      })}
+    </div>
+  );
+}
+
+/*══════════════════════════════════════
+  ADMIN DASHBOARD
+══════════════════════════════════════*/
+function AdminPanel({session,betaMode,onBetaChange,onClose}) {
+  const [tab,setTab]=useState('stats');
+  const [stats,setStats]=useState({users:'…',proUsers:'…',analyses:'…',mrr:'…'});
+  const [proList,setProList]=useState([]);
+  const [newProEmail,setNewProEmail]=useState('');
+  const [roadmap,setRoadmap]=useState('');
+  const [roadmapDraft,setRoadmapDraft]=useState('');
+  const [msg,setMsg]=useState('');
+  const [msgType,setMsgType]=useState('ok');
+  const [loading,setLoading]=useState(false);
+  const [loadingRm,setLoadingRm]=useState(false);
+
+  const showMsg=(txt,type='ok')=>{setMsg(txt);setMsgType(type);setTimeout(()=>setMsg(''),3500);};
+
+  /* ── Load real stats from Supabase ── */
+  const loadStats=useCallback(async()=>{
+    setLoading(true);
+    try{
+      const [{count:c1},{count:c2},{count:c3}] = await Promise.all([
+        sb.from('pro_users').select('*',{count:'exact',head:true}),
+        sb.from('analyses_log').select('*',{count:'exact',head:true}),
+        sb.from('analyses_log').select('*',{count:'exact',head:true}).gte('created_at',new Date(Date.now()-86400000).toISOString()),
+      ]);
+      /* Total users — via RPC si disponible, sinon estimation */
+      let totalU='N/A';
+      try{
+        const{data:rpc}=await sb.rpc('get_user_count');
+        if(rpc!=null)totalU=rpc;
+      }catch(_){}
+      setStats({users:totalU,proUsers:c1??0,analyses:c2??0,today:c3??0,mrr:((c1||0)*9.99).toFixed(2)+'€'});
+    }catch(e){console.error(e);}
+    setLoading(false);
+  },[]);
+
+  /* ── Load pro users & roadmap ── */
+  useEffect(()=>{
+    loadStats();
+    sb.from('pro_users').select('*').order('created_at',{ascending:false}).then(({data})=>setProList(data||[]));
+    sb.from('site_settings').select('value').eq('key','roadmap').single().then(({data})=>{
+      if(data?.value){setRoadmap(data.value);setRoadmapDraft(data.value);}
+    });
+  },[]);
+
+  /* ── Beta toggle ── */
+  const toggleBeta=async(v)=>{
+    onBetaChange(v);
+    await sb.from('site_settings').upsert({key:'beta_mode',value:String(v),updated_at:new Date().toISOString()});
+  };
+
+  /* ── Grant pro ── */
+  const grantPro=async()=>{
+    if(!newProEmail.trim()||!newProEmail.includes('@')){showMsg('Email invalide.','er');return;}
+    const{error}=await sb.from('pro_users').upsert({email:newProEmail.trim().toLowerCase(),granted_by:session?.user?.email},{onConflict:'email'});
+    if(error)showMsg('Erreur : '+error.message,'er');
+    else{
+      showMsg(`✅ Pro activé pour ${newProEmail.trim()}`,'ok');
+      setNewProEmail('');
+      const{data}=await sb.from('pro_users').select('*').order('created_at',{ascending:false});
+      setProList(data||[]);
+      await loadStats();
+    }
+  };
+
+  /* ── Revoke pro ── */
+  const revokePro=async(email)=>{
+    const{error}=await sb.from('pro_users').delete().eq('email',email);
+    if(!error){
+      setProList(p=>p.filter(u=>u.email!==email));
+      showMsg('❌ Accès Pro révoqué : '+email,'er');
+      await loadStats();
+    }
+  };
+
+  /* ── Save roadmap ── */
+  const saveRoadmap=async()=>{
+    setLoadingRm(true);
+    const{error}=await sb.from('site_settings').upsert({key:'roadmap',value:roadmapDraft,updated_at:new Date().toISOString()});
+    setLoadingRm(false);
+    if(error)showMsg('Erreur sauvegarde : '+error.message,'er');
+    else{setRoadmap(roadmapDraft);showMsg('✅ Roadmap mise à jour pour tous les utilisateurs !','ok');}
+  };
+
+  const tabs=[
+    {k:'stats',label:'📊 Stats',icon:<I.Chart/>},
+    {k:'users',label:'👑 Pro Users',icon:<I.Users/>},
+    {k:'news',label:'📰 Roadmap',icon:<I.News/>},
+    {k:'settings',label:'⚙️ Paramètres',icon:<I.Edit/>},
+  ];
+
+  return(
     <div className="bd" onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div className="g3 admin-panel fu" style={{borderRadius:'var(--r-xl)',padding:'32px 28px',maxWidth:560,width:'100%',maxHeight:'90vh',overflowY:'auto'}}>
+      <div className="g-purple fu" style={{borderRadius:'var(--rxl)',padding:'28px',maxWidth:580,width:'100%',maxHeight:'92vh',overflowY:'auto'}}>
         {/* Header */}
-        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:24}}>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:20}}>
           <div style={{display:'flex',alignItems:'center',gap:10}}>
-            <div style={{width:38,height:38,borderRadius:11,background:'linear-gradient(135deg,#BF5AF2,#5E5CE6)',display:'flex',alignItems:'center',justifyContent:'center'}}>
-              <Ic.Admin/>
+            <div style={{width:40,height:40,borderRadius:12,background:'linear-gradient(135deg,#BF5AF2,#5E5CE6)',display:'flex',alignItems:'center',justifyContent:'center',boxShadow:'0 4px 16px rgba(191,90,242,.35)'}}>
+              <I.Shield/>
             </div>
             <div>
-              <p style={{fontFamily:'var(--fd)',fontWeight:700,fontSize:17,color:'var(--text)'}}>Dashboard Admin</p>
-              <p style={{fontSize:11,color:'rgba(191,90,242,.7)'}}>Accès restreint · {ADMIN_EMAIL}</p>
+              <p style={{fontFamily:'var(--fd)',fontWeight:700,fontSize:16,color:'var(--t1)'}}>Dashboard Admin</p>
+              <p style={{fontSize:11,color:'rgba(191,90,242,.7)',marginTop:1}}>Accès restreint · {ADMIN_EMAIL}</p>
             </div>
           </div>
-          <button className="btn-o" onClick={onClose} style={{width:32,height:32,padding:0,borderRadius:'50%'}}>
-            <Ic.X s={13}/>
-          </button>
+          <button className="btn-o" onClick={onClose} style={{width:30,height:30,padding:0,borderRadius:'50%'}}><I.X s={12}/></button>
         </div>
 
         {/* Tabs */}
-        <div style={{display:'flex',gap:8,marginBottom:22}}>
-          {['stats','users','promo'].map(t=>(
-            <button key={t} className="btn-o" onClick={()=>setTab(t)}
-              style={{flex:1,padding:'8px',fontSize:13,borderRadius:'var(--r-sm)',
-                background:tab===t?'rgba(191,90,242,.15)':'var(--surface)',
-                borderColor:tab===t?'rgba(191,90,242,.3)':'var(--border)',
-                color:tab===t?'var(--purple)':'var(--muted)'}}>
-              {t==='stats'?'📊 Stats':t==='users'?'👑 Pro Users':'🎟 Promo'}
+        <div style={{display:'flex',gap:6,marginBottom:20,overflowX:'auto',paddingBottom:4}}>
+          {tabs.map(t=>(
+            <button key={t.k} className="btn-o" onClick={()=>setTab(t.k)}
+              style={{whiteSpace:'nowrap',padding:'7px 14px',fontSize:12,borderRadius:'var(--rs)',
+                background:tab===t.k?'rgba(191,90,242,.18)':'var(--s1)',
+                borderColor:tab===t.k?'rgba(191,90,242,.32)':'var(--b1)',
+                color:tab===t.k?'var(--purple)':'var(--t2)'}}>
+              {t.label}
             </button>
           ))}
+          <button className="btn-o" onClick={loadStats} style={{padding:'7px 10px',borderRadius:'var(--rs)',marginLeft:'auto'}}>
+            <I.Refresh/> Actualiser
+          </button>
         </div>
 
-        {/* STATS TAB */}
+        {/* ──── STATS ──── */}
         {tab==='stats'&&(
-          <div style={{display:'flex',flexDirection:'column',gap:14}}>
+          <div style={{display:'flex',flexDirection:'column',gap:12}}>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
               {[
-                {label:'Utilisateurs',val:stats.totalUsers,icon:'👤'},
-                {label:'Comptes Pro',val:stats.proUsers,icon:'👑'},
-                {label:'Analyses Aujourd\'hui',val:stats.analysesToday,icon:'🔍'},
-                {label:'MRR Estimé',val:stats.revenue+'€',icon:'💰'},
+                {label:'Utilisateurs total',val:stats.users,icon:'👤',note:'via RPC'},
+                {label:'Comptes Pro actifs',val:stats.proUsers,icon:'👑',note:'table pro_users'},
+                {label:'Analyses totales',val:stats.analyses,icon:'🔍',note:'table analyses_log'},
+                {label:'Analyses aujourd\'hui',val:stats.today??'—',icon:'📈',note:'24 dernières heures'},
+                {label:'MRR estimé',val:stats.mrr,icon:'💰',note:'Pro × 9,99€'},
+                {label:'Taux conversion',val:stats.proUsers&&stats.users&&stats.users!=='N/A'?Math.round(stats.proUsers/stats.users*100)+'%':'—',icon:'📊',note:'Pro / Total users'},
               ].map(s=>(
                 <div key={s.label} className="admin-stat">
-                  <div style={{fontSize:22,marginBottom:6}}>{s.icon}</div>
-                  <div style={{fontFamily:'var(--fd)',fontSize:24,fontWeight:800,color:'var(--purple)'}}>{s.val}</div>
-                  <div style={{fontSize:11,color:'var(--muted)',marginTop:3}}>{s.label}</div>
+                  <div style={{fontSize:20,marginBottom:5}}>{s.icon}</div>
+                  <div style={{fontFamily:'var(--fd)',fontSize:22,fontWeight:800,color:loading?'var(--t3)':'var(--purple)'}}>{loading?'…':s.val}</div>
+                  <div style={{fontSize:11,color:'var(--t2)',marginTop:3}}>{s.label}</div>
+                  <div style={{fontSize:10,color:'var(--t3)',marginTop:2}}>{s.note}</div>
                 </div>
               ))}
             </div>
-            <div className="wa" style={{borderColor:'rgba(191,90,242,.2)',background:'rgba(191,90,242,.05)'}}>
-              <strong>ℹ️ Stats en local</strong> — Connectez Supabase avec une vue SQL pour des données réelles en temps réel.
+            <div className="wa" style={{borderColor:'rgba(191,90,242,.18)',background:'rgba(191,90,242,.05)',fontSize:12}}>
+              ℹ️ Pour le count d'utilisateurs, créez cette fonction dans Supabase SQL Editor :<br/>
+              <code style={{display:'block',marginTop:6,background:'rgba(0,0,0,.3)',padding:'6px 10px',borderRadius:6,fontSize:11,fontFamily:'monospace'}}>
+                {`create or replace function get_user_count()\nreturns bigint language sql security definer as\n$$ select count(*) from auth.users; $$;`}
+              </code>
             </div>
+            {msg&&<div className={`${msgType==='ok'?'ok':'er'} fu`}>{msg}</div>}
           </div>
         )}
 
-        {/* USERS TAB */}
+        {/* ──── PRO USERS ──── */}
         {tab==='users'&&(
-          <div>
-            <p className="lbl" style={{marginBottom:12,color:'var(--purple)'}}>Liste Pro activés manuellement</p>
+          <div style={{display:'flex',flexDirection:'column',gap:14}}>
+            <p className="lbl" style={{color:'var(--purple)'}}>Activer accès Pro par email</p>
+            <div style={{display:'flex',gap:8}}>
+              <input className="inp" type="email" value={newProEmail} onChange={e=>setNewProEmail(e.target.value)}
+                placeholder="utilisateur@email.com" onKeyDown={e=>e.key==='Enter'&&grantPro()}/>
+              <button className="btn" onClick={grantPro} style={{padding:'0 18px',flexShrink:0,borderRadius:'var(--rs)',background:'linear-gradient(135deg,#BF5AF2,#5E5CE6)',fontSize:14}}>
+                Activer
+              </button>
+            </div>
+            {msg&&<div className={`${msgType==='ok'?'ok':'er'} fu`} style={{fontSize:13}}>{msg}</div>}
+
+            <p className="lbl" style={{color:'var(--purple)',marginTop:4}}>Liste des Pro ({proList.length})</p>
             {proList.length===0?(
-              <div style={{textAlign:'center',padding:'24px',color:'var(--dim)',fontSize:13}}>
-                Aucun Pro activé manuellement pour l'instant.
-              </div>
+              <div style={{textAlign:'center',padding:'28px',color:'var(--t3)',fontSize:13}}>Aucun Pro activé manuellement.</div>
             ):(
-              <div style={{borderRadius:'var(--r-sm)',overflow:'hidden',border:'1px solid var(--border)'}}>
-                <table className="atbl">
-                  <thead>
-                    <tr><th>Email</th><th style={{textAlign:'right'}}>Action</th></tr>
-                  </thead>
+              <div style={{borderRadius:'var(--rs)',overflow:'hidden',border:'1px solid var(--b1)'}}>
+                <table className="tbl">
+                  <thead><tr><th>Email</th><th>Accordé par</th><th>Date</th><th style={{textAlign:'right'}}>Action</th></tr></thead>
                   <tbody>
-                    {proList.map(em=>(
-                      <tr key={em}>
-                        <td style={{fontFamily:'monospace',fontSize:12}}>{em}</td>
+                    {proList.map(u=>(
+                      <tr key={u.id}>
+                        <td style={{fontFamily:'monospace',fontSize:12,color:'var(--t1)'}}>{u.email}</td>
+                        <td style={{fontSize:11}}>{u.granted_by||'—'}</td>
+                        <td style={{fontSize:11}}>{new Date(u.created_at).toLocaleDateString('fr-FR')}</td>
                         <td style={{textAlign:'right'}}>
-                          <button className="btn-red" style={{padding:'4px 10px',fontSize:11}} onClick={()=>revoke(em)}>
-                            <Ic.Trash/> Révoquer
-                          </button>
+                          <button className="btn-red" onClick={()=>revokePro(u.email)}><I.Trash/> Révoquer</button>
                         </td>
                       </tr>
                     ))}
@@ -727,26 +941,66 @@ function AdminPanel({session, onClose}) {
                 </table>
               </div>
             )}
-            {msg&&<div className={`${msgType==='ok'?'ok':'er'} fu`} style={{marginTop:10,fontSize:13}}>{msg}</div>}
           </div>
         )}
 
-        {/* PROMO TAB */}
-        {tab==='promo'&&(
-          <div style={{display:'flex',flexDirection:'column',gap:12}}>
-            <p className="lbl" style={{marginBottom:4,color:'var(--purple)'}}>Activer Pro par email</p>
-            <p style={{fontSize:13,color:'var(--muted)',marginBottom:4}}>
-              L'utilisateur sera Pro dès sa prochaine connexion (ou rechargement de la page).
-            </p>
-            <div style={{display:'flex',gap:8}}>
-              <input className="inp" type="email" value={newEmail} onChange={e=>setNewEmail(e.target.value)} placeholder="user@email.com" onKeyDown={e=>e.key==='Enter'&&grantPro()}/>
-              <button className="btn" onClick={grantPro} style={{padding:'0 18px',flexShrink:0,borderRadius:'var(--r-sm)',background:'linear-gradient(135deg,#BF5AF2,#5E5CE6)'}}>
-                Activer
-              </button>
+        {/* ──── ROADMAP / NEWS ──── */}
+        {tab==='news'&&(
+          <div style={{display:'flex',flexDirection:'column',gap:14}}>
+            <p className="lbl" style={{color:'var(--purple)'}}>Contenu public — Onglet "Mises à jour"</p>
+            <div className="info-box" style={{fontSize:12}}>
+              Supporte le markdown simplifié : <code>## Titre</code>, <code>**Gras**</code>, <code>- Item</code><br/>
+              Ce contenu est stocké en base et visible par tous les utilisateurs en temps réel.
             </div>
-            {msg&&<div className={`${msgType==='ok'?'ok':'er'} fu`} style={{fontSize:13}}>{msg}</div>}
-            <div className="wa" style={{marginTop:4,borderColor:'rgba(191,90,242,.2)',background:'rgba(191,90,242,.05)'}}>
-              <strong>Code promo actif :</strong> <code style={{background:'rgba(255,255,255,.08)',padding:'2px 8px',borderRadius:4,fontSize:13}}>flayc0</code> — 1 mois gratuit pour tout utilisateur.
+            <textarea className="inp" value={roadmapDraft} onChange={e=>setRoadmapDraft(e.target.value)}
+              style={{minHeight:200,fontFamily:'monospace',fontSize:12,lineHeight:1.8}}/>
+            <div style={{display:'flex',gap:10}}>
+              <button className="btn" onClick={saveRoadmap} disabled={loadingRm} style={{padding:'10px 20px',fontSize:14,borderRadius:'var(--rs)',background:'linear-gradient(135deg,#BF5AF2,#5E5CE6)'}}>
+                {loadingRm?'Sauvegarde…':'💾 Publier pour tous'}
+              </button>
+              <button className="btn-o" onClick={()=>setRoadmapDraft(roadmap)} style={{padding:'10px 14px',fontSize:13}}>Annuler</button>
+            </div>
+            {msg&&<div className={`${msgType==='ok'?'ok':'er'} fu`}>{msg}</div>}
+            <p className="lbl" style={{color:'var(--purple)'}}>Aperçu public</p>
+            <div className="g1" style={{borderRadius:'var(--r)',padding:'18px 20px'}}>
+              <RoadmapView content={roadmapDraft}/>
+            </div>
+          </div>
+        )}
+
+        {/* ──── SETTINGS ──── */}
+        {tab==='settings'&&(
+          <div style={{display:'flex',flexDirection:'column',gap:16}}>
+            <div className="g1" style={{borderRadius:'var(--r)',padding:'18px 20px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <div>
+                <p style={{fontWeight:600,fontSize:14,color:'var(--t1)',marginBottom:3}}>Mode Bêta</p>
+                <p style={{fontSize:12,color:'var(--t2)'}}>Affiche un badge BÊTA à côté du logo sur tout le site</p>
+              </div>
+              <label className="switch">
+                <input type="checkbox" checked={betaMode} onChange={e=>toggleBeta(e.target.checked)}/>
+                <span className="slider"/>
+              </label>
+            </div>
+
+            <div className="g1" style={{borderRadius:'var(--r)',padding:'18px 20px'}}>
+              <p style={{fontWeight:600,fontSize:14,color:'var(--t1)',marginBottom:6}}>Code promo actif</p>
+              <div style={{display:'flex',alignItems:'center',gap:10}}>
+                <code style={{background:'rgba(0,0,0,.3)',padding:'6px 14px',borderRadius:8,fontSize:15,color:'var(--green)',fontFamily:'monospace',letterSpacing:'.06em'}}>flayc0</code>
+                <span style={{fontSize:12,color:'var(--t2)'}}>→ 1 mois gratuit pour tout utilisateur</span>
+              </div>
+            </div>
+
+            <div className="g1" style={{borderRadius:'var(--r)',padding:'18px 20px'}}>
+              <p style={{fontWeight:600,fontSize:14,color:'var(--t1)',marginBottom:6}}>Stripe</p>
+              <code style={{fontSize:11,color:'var(--t2)',wordBreak:'break-all',background:'rgba(0,0,0,.2)',padding:'8px 12px',borderRadius:6,display:'block',lineHeight:1.6}}>
+                {STRIPE_LINK.includes('VOTRE_LIEN')
+                  ? '⚠️ Non configuré — Remplacez STRIPE_LINK dans le code source'
+                  : STRIPE_LINK}
+              </code>
+            </div>
+
+            <div className="wa" style={{fontSize:12}}>
+              <strong>SQL requis pour les stats complètes :</strong> Voir le bloc SQL commenté dans le code source (section CONFIG GLOBALE).
             </div>
           </div>
         )}
@@ -755,130 +1009,144 @@ function AdminPanel({session, onClose}) {
   );
 }
 
-/* ══════════ MAIN APP ══════════ */
+/*══════════════════════════════════════
+  MAIN APP
+══════════════════════════════════════*/
 function App() {
-  const [session,    setSession]    = useState(null);
-  const [authInit,   setAuthInit]   = useState(false);
-  const [showAuth,   setShowAuth]   = useState(false);
-  const [showPW,     setShowPW]     = useState(false);
-  const [showAdmin,  setShowAdmin]  = useState(false);
-  const [image,      setImage]      = useState(null);
-  const [loading,    setLoading]    = useState(false);
-  const [result,     setResult]     = useState(null);
-  const [usage,      setUsage_]     = useState(0);
-  const [isPro,      setIsPro]      = useState(false);
-  const [isDrag,     setIsDrag]     = useState(false);
-  const [err,        setErr]        = useState(null);
+  const [session,   setSession]   = useState(null);
+  const [authInit,  setAuthInit]  = useState(false);
+  const [showAuth,  setShowAuth]  = useState(false);
+  const [showPW,    setShowPW]    = useState(false);
+  const [showAdmin, setShowAdmin] = useState(false);
+  const [activeTab, setActiveTab] = useState('analyze'); // 'analyze' | 'news'
+  const [image,     setImage]     = useState(null);
+  const [loading,   setLoading]   = useState(false);
+  const [result,    setResult]    = useState(null);
+  const [usage,     setUsage_]    = useState(0);
+  const [isPro,     setIsPro]     = useState(false);
+  const [isDrag,    setIsDrag]    = useState(false);
+  const [err,       setErr]       = useState(null);
+  const [betaMode,  setBetaMode]  = useState(false);
+  const [roadmap,   setRoadmap]   = useState('');
   const fileRef = useRef(null);
 
-  /* Computed */
-  const user      = session?.user;
-  const email     = user?.email||'';
-  const isAdmin   = email.toLowerCase()===ADMIN_EMAIL.toLowerCase();
-  const name      = user?.user_metadata?.full_name||email;
-  const initials  = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)||'?';
+  /* Derived */
+  const user    = session?.user;
+  const email   = user?.email||'';
+  const isAdmin = email.toLowerCase()===ADMIN_EMAIL.toLowerCase();
+  const name    = user?.user_metadata?.full_name||email;
+  const initials= name.split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,2)||'?';
 
-  /* ── Auth init ── */
+  /* ── Auth & data init ── */
   useEffect(()=>{
-    sb.auth.getSession().then(({data:{session}})=>{
-      setSession(session);
-      if (session?.user) {
-        const uid = session.user.id;
-        const em  = session.user.email||'';
-        setUsage_(window._LS.usage(uid));
-        setIsPro(window._LS.isPro(uid,em));
+    const init=async()=>{
+      const{data:{session:s}}=await sb.auth.getSession();
+      setSession(s);
+      if(s?.user){
+        const uid=s.user.id;const em=s.user.email||'';
+        setUsage_(window._LS2.usage(uid));
+        const pro=await window._isProUser(em)||window._LS2.codeUsed(uid);
+        setIsPro(pro);
       }
       setAuthInit(true);
-    });
-    const {data:{subscription}} = sb.auth.onAuthStateChange((_ev,sess)=>{
+      /* Load site settings */
+      const{data:bm}=await sb.from('site_settings').select('value').eq('key','beta_mode').single();
+      if(bm?.value)setBetaMode(bm.value==='true');
+      const{data:rm}=await sb.from('site_settings').select('value').eq('key','roadmap').single();
+      if(rm?.value)setRoadmap(rm.value);
+    };
+    init();
+
+    const{data:{subscription}}=sb.auth.onAuthStateChange(async(_ev,sess)=>{
       setSession(sess);
-      if (sess?.user) {
-        const uid = sess.user.id;
-        const em  = sess.user.email||'';
-        setUsage_(window._LS.usage(uid));
-        setIsPro(window._LS.isPro(uid,em));
+      if(sess?.user){
+        const uid=sess.user.id;const em=sess.user.email||'';
+        setUsage_(window._LS2.usage(uid));
+        const pro=await window._isProUser(em)||window._LS2.codeUsed(uid);
+        setIsPro(pro);
       }
     });
-    return ()=>subscription.unsubscribe();
+    return()=>subscription.unsubscribe();
   },[]);
 
-  const logout = async()=>{
+  const logout=async()=>{
     await sb.auth.signOut();
-    setSession(null); setIsPro(false); setUsage_(0); setImage(null); setResult(null);
+    setSession(null);setIsPro(false);setUsage_(0);setImage(null);setResult(null);setErr(null);
   };
 
-  /* ── File handling ── */
-  const processFile = useCallback(f=>{
-    if (!f||!f.type.startsWith('image/')) return;
+  /* ── File ── */
+  const processFile=useCallback(f=>{
+    if(!f||!f.type.startsWith('image/'))return;
     const r=new FileReader();
     r.onload=e=>{setImage(e.target.result);setResult(null);setErr(null);};
     r.readAsDataURL(f);
   },[]);
-  const onDragOver  = useCallback(e=>{e.preventDefault();setIsDrag(true);},[]);
-  const onDragLeave = useCallback(()=>setIsDrag(false),[]);
-  const onDrop      = useCallback(e=>{e.preventDefault();setIsDrag(false);processFile(e.dataTransfer.files[0]);},[processFile]);
+  const onDragOver =useCallback(e=>{e.preventDefault();setIsDrag(true);},[]);
+  const onDragLeave=useCallback(()=>setIsDrag(false),[]);
+  const onDrop     =useCallback(e=>{e.preventDefault();setIsDrag(false);processFile(e.dataTransfer.files[0]);},[processFile]);
 
   /* ── Analyze ── */
-  const analyze = async()=>{
-    if (!image) return;
-    if (!user)  { setShowAuth(true); return; }
-    if (usage>=1&&!isPro) { setShowPW(true); return; }
-    setLoading(true); setResult(null); setErr(null);
-    try {
-      const b64  = image.split(',')[1];
-      const mtyp = image.split(';')[0].split(':')[1]||'image/jpeg';
-      const data = await analyzeImage(b64,mtyp);
-      setResult(data);
-      const n=usage+1; setUsage_(n);
-      if (user) window._LS.setUse(user.id,n);
-    } catch(e){ setErr('Analyse échouée. Vérifiez votre connexion et réessayez.'); }
+  const analyze=async()=>{
+    if(!image)return;
+    if(!user){setShowAuth(true);return;}
+    if(usage>=1&&!isPro){setShowPW(true);return;}
+    setLoading(true);setResult(null);setErr(null);
+
+    const uid=user.id;
+    const b64 =image.split(',')[1];
+    const mtyp=image.split(';')[0].split(':')[1]||'image/jpeg';
+    const data=await analyzeImage(b64,mtyp,uid);
+
+    if(data?._error==='multi_object'){
+      /* Ne pas consommer le crédit */
+      setErr(data._message);
+      setLoading(false);
+      return;
+    }
+
+    setResult(data);
+    const n=usage+1;setUsage_(n);window._LS2.setUse(uid,n);
     setLoading(false);
   };
 
-  const features = [
-    {icon:'🎯',t:'Titre SEO',s:'Optimisé pour être trouvé'},
-    {icon:'✍️',t:'Copywriting IA',s:'Description qui convertit'},
-    {icon:'💰',t:'Prix intelligent',s:'Estimation marché réelle'},
-    {icon:'🏷️',t:'Mots-clés',s:'Vinted & eBay ready'},
+  const features=[
+    {icon:'🔍',t:'Détection Marque',s:'Identifie la marque & le modèle'},
+    {icon:'✍️',t:'Description Naturelle',s:'Ton humanisé, pas robotique'},
+    {icon:'💰',t:'Prix Marché Réel',s:'Basé sur Vinted France 2024'},
+    {icon:'🏷️',t:'SEO Optimisé',s:'Tags Vinted & eBay prêts'},
   ];
 
-  if (!authInit) return (
+  if(!authInit)return(
     <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',gap:12}}>
       <div style={{width:22,height:22,borderRadius:'50%',border:'2px solid rgba(0,122,255,.2)',borderTopColor:'#007AFF',animation:'spin-cw 1s linear infinite'}}/>
-      <span style={{color:'var(--muted)',fontSize:14}}>Chargement…</span>
+      <span style={{color:'var(--t2)',fontSize:14}}>Chargement…</span>
     </div>
   );
 
-  return (
+  return(
     <div className="mesh">
       {/* ══ NAV ══ */}
       <nav className="nav">
         <div style={{display:'flex',alignItems:'center',gap:10}}>
-          <div style={{width:34,height:34,borderRadius:10,background:'linear-gradient(135deg,#007AFF,#00D4FF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,boxShadow:'0 0 22px rgba(0,122,255,.4)'}}>⚡</div>
-          <span style={{fontFamily:'var(--fd)',fontWeight:700,fontSize:17,color:'var(--text)'}}>
+          <div style={{width:34,height:34,borderRadius:10,background:'linear-gradient(135deg,#007AFF,#00D4FF)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,boxShadow:'0 0 22px rgba(0,122,255,.38)'}}>⚡</div>
+          <span style={{fontFamily:'var(--fd)',fontWeight:700,fontSize:17}}>
             FlashSell<span style={{color:'#007AFF'}}>.ai</span>
           </span>
-          {isPro&&<span className="tag tag-gold" style={{fontSize:10,padding:'2px 8px',gap:4}}><Ic.Crown s={11}/> PRO</span>}
-          {isAdmin&&<span className="tag tag-purple" style={{fontSize:10,padding:'2px 8px',gap:4}}><Ic.Shield/> ADMIN</span>}
+          {betaMode&&<span className="tag tag-beta">BÊTA</span>}
+          {isPro&&!betaMode&&<span className="tag tag-gold" style={{fontSize:10,padding:'2px 8px',gap:4}}><I.Crown s={10}/> PRO</span>}
+          {isAdmin&&<span className="tag tag-purple" style={{fontSize:10,padding:'2px 8px',gap:4}}><I.Shield/> ADMIN</span>}
         </div>
-
         <div style={{display:'flex',alignItems:'center',gap:10}}>
-          {!user ? (
+          {!user?(
             <button className="btn-o" onClick={()=>setShowAuth(true)} style={{padding:'7px 14px'}}>
-              <Ic.Google/> Se connecter
+              <I.Google/> Se connecter
             </button>
-          ) : (
-            <div style={{display:'flex',alignItems:'center',gap:10}}>
-              {!isPro&&(
-                <button className="btn-o" onClick={()=>setShowPW(true)} style={{fontSize:12,padding:'6px 12px',color:'var(--blue)',borderColor:'var(--blue-border)'}}>
-                  Passer Pro
-                </button>
-              )}
-              {isAdmin&&(
-                <button className="btn-o" onClick={()=>setShowAdmin(true)} style={{fontSize:12,padding:'6px 12px',color:'var(--purple)',borderColor:'rgba(191,90,242,.3)'}}>
-                  <Ic.Admin/> Admin
-                </button>
-              )}
+          ):(
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              {!isPro&&<button className="btn-o" onClick={()=>setShowPW(true)} style={{fontSize:12,padding:'6px 12px',color:'var(--blue)',borderColor:'var(--blue-b)'}}>Passer Pro</button>}
+              {isAdmin&&<button className="btn-o" onClick={()=>setShowAdmin(true)} style={{fontSize:12,padding:'6px 12px',color:'var(--purple)',borderColor:'rgba(191,90,242,.3)'}}>
+                <I.Shield/> Admin
+              </button>}
               <div onClick={logout} title={`${email} — Cliquer pour déconnecter`}
                 style={{width:34,height:34,borderRadius:'50%',background:'linear-gradient(135deg,#007AFF,#0044CC)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:700,color:'#fff',cursor:'pointer',flexShrink:0}}>
                 {initials}
@@ -888,140 +1156,165 @@ function App() {
         </div>
       </nav>
 
-      {/* ══ CONTENT ══ */}
-      <div style={{maxWidth:640,margin:'0 auto',padding:'44px 16px 80px'}}>
+      {/* ══ MAIN ══ */}
+      <div style={{maxWidth:650,margin:'0 auto',padding:'40px 16px 80px'}}>
 
         {/* Hero */}
-        <div style={{textAlign:'center',marginBottom:48}}>
-          <div style={{display:'inline-flex',alignItems:'center',gap:8,padding:'6px 16px',borderRadius:100,background:'rgba(0,122,255,.1)',border:'1px solid rgba(0,122,255,.2)',marginBottom:22}}>
-            <div className="dot"/>
-            <span style={{fontSize:12,fontWeight:600,color:'#70BBFF',letterSpacing:'.05em'}}>Propulsé par Claude AI · Vision</span>
+        <div style={{textAlign:'center',marginBottom:36}}>
+          <div style={{display:'inline-flex',alignItems:'center',gap:8,padding:'5px 14px',borderRadius:100,background:'rgba(0,122,255,.1)',border:'1px solid rgba(0,122,255,.2)',marginBottom:20}}>
+            <div style={{width:7,height:7,borderRadius:'50%',background:'var(--blue)',animation:'pulse-ring 2s infinite'}}/>
+            <span style={{fontSize:11.5,fontWeight:600,color:'#6DBAFF',letterSpacing:'.05em'}}>Claude Vision · Détection marque · Prix marché réel</span>
           </div>
-          <h1 style={{fontFamily:'var(--fd)',fontSize:'clamp(30px,6.5vw,54px)',fontWeight:800,lineHeight:1.1,marginBottom:16,letterSpacing:'-.025em'}}>
+          <h1 style={{fontFamily:'var(--fd)',fontSize:'clamp(28px,6vw,52px)',fontWeight:800,lineHeight:1.1,marginBottom:14,letterSpacing:'-.03em'}}>
             <span className="gx">Transformez vos objets</span><br/>
             <span>en cash avec l'IA</span>
           </h1>
-          <p style={{fontSize:'clamp(14px,2vw,17px)',color:'var(--muted)',maxWidth:400,margin:'0 auto',lineHeight:1.65}}>
-            Photographiez n'importe quoi. L'IA génère le titre, la description persuasive et le prix parfait.
+          <p style={{fontSize:'clamp(14px,2vw,16px)',color:'var(--t2)',maxWidth:420,margin:'0 auto',lineHeight:1.7}}>
+            Photographiez n'importe quel article. L'IA identifie la marque, estime le prix réel et génère la fiche parfaite.
           </p>
         </div>
 
-        {/* Login CTA if not logged */}
-        {!user&&(
-          <div className="g1 fu" style={{borderRadius:'var(--r)',padding:'20px 24px',marginBottom:22,textAlign:'center',borderColor:'rgba(0,122,255,.22)'}}>
-            <p style={{fontWeight:600,fontSize:15,color:'var(--text)',marginBottom:6}}>🔐 Connexion requise pour analyser</p>
-            <p style={{fontSize:13,color:'var(--muted)',marginBottom:14}}>1 analyse gratuite dès la connexion. Aucune carte nécessaire.</p>
-            <button className="btn" onClick={()=>setShowAuth(true)} style={{padding:'11px 28px',borderRadius:'var(--r)'}}>
-              <Ic.Google/> Se connecter gratuitement
-            </button>
-          </div>
-        )}
+        {/* Public tabs */}
+        <div className="tab-bar">
+          <button className={`tab-btn${activeTab==='analyze'?' on':''}`} onClick={()=>setActiveTab('analyze')}>
+            <I.Spark s={14} c="currentColor"/> Analyser un article
+          </button>
+          <button className={`tab-btn${activeTab==='news'?' on':''}`} onClick={()=>setActiveTab('news')}>
+            <I.News/> Mises à jour
+          </button>
+        </div>
 
-        {/* Pro status banner */}
-        {user&&isPro&&(
-          <div className="fu" style={{padding:'11px 16px',borderRadius:'var(--r-sm)',background:'rgba(255,214,10,.08)',border:'1px solid rgba(255,214,10,.22)',display:'flex',alignItems:'center',gap:10,marginBottom:18}}>
-            <Ic.Crown s={15}/>
-            <span style={{fontSize:13,color:'rgba(255,214,10,.9)',fontWeight:500}}>FlashSell Pro actif — Analyses illimitées</span>
-          </div>
-        )}
-
-        {/* Upload / Results */}
-        {!image ? (
+        {/* ── TAB: ANALYZE ── */}
+        {activeTab==='analyze'&&(
           <>
-            <div className={`dz${isDrag?' on':''}`}
-              style={{border:'2px dashed rgba(255,255,255,.09)',borderRadius:'var(--r-lg)',padding:'52px 24px',textAlign:'center',cursor:'pointer',marginBottom:22}}
-              onDragOver={onDragOver} onDragLeave={onDragLeave} onDrop={onDrop}
-              onClick={()=>fileRef.current?.click()}>
-              <div className="fl" style={{marginBottom:16}}><Ic.Upload/></div>
-              <p style={{fontFamily:'var(--fd)',fontWeight:700,fontSize:17,color:'var(--text)',marginBottom:8}}>Glissez votre photo ici</p>
-              <p style={{fontSize:13,color:'var(--dim)'}}>ou <span style={{color:'var(--blue)',textDecoration:'underline'}}>cliquez pour sélectionner</span> · JPG, PNG, WEBP, HEIC</p>
-              <input ref={fileRef} type="file" accept="image/*" onChange={e=>processFile(e.target.files[0])} style={{display:'none'}}/>
-            </div>
-            <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:10}}>
-              {features.map(f=>(
-                <div key={f.t} className="g1" style={{borderRadius:'var(--r)',padding:'16px 18px',display:'flex',alignItems:'center',gap:12}}>
-                  <div style={{fontSize:24,flexShrink:0}}>{f.icon}</div>
-                  <div><p style={{fontWeight:600,fontSize:14,color:'var(--text)',marginBottom:2}}>{f.t}</p><p style={{fontSize:12,color:'var(--dim)'}}>{f.s}</p></div>
-                </div>
-              ))}
-            </div>
-            <p style={{textAlign:'center',fontSize:12,color:'var(--dim)',marginTop:22}}>
-              🔒 Photos non stockées · Détection couleur locale · 1ère analyse <span style={{color:'var(--blue)'}}>gratuite</span>
-            </p>
-          </>
-        ) : (
-          <div style={{display:'flex',flexDirection:'column',gap:14}}>
-            {/* Preview */}
-            <div style={{position:'relative',borderRadius:'var(--r-lg)',overflow:'hidden',border:'1px solid var(--border)'}}>
-              <img src={image} alt="Objet" style={{width:'100%',maxHeight:300,objectFit:'cover',display:'block'}}/>
-              <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(8,8,16,.72) 0%,transparent 45%)',pointerEvents:'none'}}/>
-              <button onClick={()=>{setImage(null);setResult(null);setErr(null);}}
-                style={{position:'absolute',top:12,right:12,width:30,height:30,borderRadius:'50%',background:'rgba(8,8,16,.8)',border:'1px solid var(--border2)',color:'var(--text)',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
-                <Ic.X s={13}/>
-              </button>
-              {!result&&!loading&&(
-                <div style={{position:'absolute',bottom:12,left:0,right:0,textAlign:'center'}}>
-                  <span style={{fontSize:12,color:'rgba(255,255,255,.5)'}}>Photo prête ✓</span>
-                </div>
-              )}
-            </div>
+            {/* Login banner */}
+            {!user&&(
+              <div className="g1 fu" style={{borderRadius:'var(--r)',padding:'18px 22px',marginBottom:20,textAlign:'center',borderColor:'rgba(0,122,255,.2)'}}>
+                <p style={{fontWeight:600,fontSize:14,marginBottom:5}}>🔐 Connexion requise pour analyser</p>
+                <p style={{fontSize:13,color:'var(--t2)',marginBottom:12}}>1 analyse gratuite offerte. Aucune carte nécessaire.</p>
+                <button className="btn" onClick={()=>setShowAuth(true)} style={{padding:'10px 24px',borderRadius:'var(--r)',fontSize:14}}>
+                  <I.Google/> Se connecter gratuitement
+                </button>
+              </div>
+            )}
 
-            {err&&<div className="er fu">{err}</div>}
+            {/* Pro banner */}
+            {user&&isPro&&(
+              <div className="fu" style={{padding:'10px 16px',borderRadius:'var(--rs)',background:'rgba(255,214,10,.07)',border:'1px solid rgba(255,214,10,.2)',display:'flex',alignItems:'center',gap:8,marginBottom:16,fontSize:13,color:'rgba(255,214,10,.9)'}}>
+                <I.Crown s={14}/> FlashSell Pro actif — Analyses illimitées
+              </div>
+            )}
 
-            {!result&&!loading&&(
-              <button className="btn" onClick={analyze} style={{width:'100%',padding:'16px',fontSize:16,borderRadius:'var(--r)'}}>
-                <Ic.Spark s={18} c="#fff"/>
-                {!user?'Connectez-vous pour analyser':"Analyser avec l'IA"}
-                {user&&usage===0&&!isPro&&(
-                  <span style={{fontSize:11,background:'rgba(255,255,255,.18)',padding:'3px 10px',borderRadius:100}}>GRATUIT</span>
+            {/* Upload / Results */}
+            {!image?(
+              <>
+                <div className={`dz${isDrag?' on':''}`}
+                  style={{border:'2px dashed rgba(255,255,255,.09)',padding:'50px 24px',textAlign:'center',cursor:'pointer',marginBottom:20}}
+                  onDragOver={onDragOver} onDragLeave={onDragLeave} onDrop={onDrop}
+                  onClick={()=>fileRef.current?.click()}>
+                  <div className="fl" style={{marginBottom:14}}><I.Upload/></div>
+                  <p style={{fontFamily:'var(--fd)',fontWeight:700,fontSize:17,marginBottom:7}}>Glissez votre photo ici</p>
+                  <p style={{fontSize:13,color:'var(--t3)'}}>ou <span style={{color:'var(--blue)',textDecoration:'underline'}}>cliquez pour sélectionner</span> · JPG, PNG, WEBP, HEIC</p>
+                  <input ref={fileRef} type="file" accept="image/*" onChange={e=>processFile(e.target.files[0])} style={{display:'none'}}/>
+                </div>
+                <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:10,marginBottom:16}}>
+                  {features.map(f=>(
+                    <div key={f.t} className="g1" style={{borderRadius:'var(--r)',padding:'15px 18px',display:'flex',alignItems:'center',gap:12}}>
+                      <div style={{fontSize:22,flexShrink:0}}>{f.icon}</div>
+                      <div><p style={{fontWeight:600,fontSize:13,marginBottom:2}}>{f.t}</p><p style={{fontSize:11.5,color:'var(--t3)'}}>{f.s}</p></div>
+                    </div>
+                  ))}
+                </div>
+                <p style={{textAlign:'center',fontSize:11.5,color:'var(--t3)'}}>
+                  🔒 1 article par photo · Photos non stockées · 1ère analyse <span style={{color:'var(--blue)'}}>gratuite</span>
+                </p>
+              </>
+            ):(
+              <div style={{display:'flex',flexDirection:'column',gap:14}}>
+                {/* Preview */}
+                <div style={{position:'relative',borderRadius:'var(--rl)',overflow:'hidden',border:'1px solid var(--b1)'}}>
+                  <img src={image} alt="" style={{width:'100%',maxHeight:300,objectFit:'cover',display:'block'}}/>
+                  <div style={{position:'absolute',inset:0,background:'linear-gradient(to top,rgba(7,7,15,.72) 0%,transparent 44%)',pointerEvents:'none'}}/>
+                  <button onClick={()=>{setImage(null);setResult(null);setErr(null);}}
+                    style={{position:'absolute',top:12,right:12,width:30,height:30,borderRadius:'50%',background:'rgba(7,7,15,.82)',border:'1px solid var(--b2)',color:'var(--t1)',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                    <I.X s={12}/>
+                  </button>
+                  {!result&&!loading&&<div style={{position:'absolute',bottom:12,left:0,right:0,textAlign:'center'}}><span style={{fontSize:12,color:'rgba(255,255,255,.48)'}}>Photo prête ✓</span></div>}
+                </div>
+
+                {err&&(
+                  <div className="er fu" style={{display:'flex',alignItems:'flex-start',gap:10}}>
+                    <span style={{fontSize:18,flexShrink:0}}>⚠️</span>
+                    <span>{err}</span>
+                  </div>
                 )}
-              </button>
+
+                {!result&&!loading&&(
+                  <button className="btn" onClick={analyze} style={{width:'100%',padding:'15px',fontSize:16,borderRadius:'var(--r)'}}>
+                    <I.Spark s={18} c="#fff"/>
+                    {!user?'Connectez-vous pour analyser':"Analyser avec l'IA"}
+                    {user&&usage===0&&!isPro&&<span style={{fontSize:11,background:'rgba(255,255,255,.18)',padding:'3px 10px',borderRadius:100}}>GRATUIT</span>}
+                  </button>
+                )}
+
+                {loading&&<div className="g1" style={{borderRadius:'var(--rl)'}}><AILoader/></div>}
+                {result&&<ResultCard result={result}/>}
+                {(result||err)&&(
+                  <button className="btn-o" onClick={()=>{setImage(null);setResult(null);setErr(null);}} style={{width:'100%',padding:'12px',borderRadius:'var(--r)'}}>
+                    ↩ Analyser un autre article
+                  </button>
+                )}
+              </div>
             )}
 
-            {loading&&<div className="g1" style={{borderRadius:'var(--r-lg)'}}><AILoader/></div>}
-            {result&&<ResultCard result={result}/>}
-            {result&&(
-              <button className="btn-o" onClick={()=>{setImage(null);setResult(null);setErr(null);}} style={{width:'100%',padding:'13px',borderRadius:'var(--r)'}}>
-                ↩ Analyser un autre objet
-              </button>
+            {/* Usage indicator */}
+            {user&&!isPro&&(
+              <div style={{textAlign:'center',marginTop:20}}>
+                <p style={{fontSize:12,color:'var(--t3)'}}>
+                  {usage===0
+                    ?<>🎁 <span style={{color:'var(--t2)'}}>1 analyse gratuite disponible</span></>
+                    :<><span style={{color:'var(--t2)'}}>{usage} analyse(s) utilisée(s) · </span><span style={{color:'var(--blue)',cursor:'pointer'}} onClick={()=>setShowPW(true)}>Débloquer Pro →</span></>
+                  }
+                </p>
+              </div>
             )}
-          </div>
+          </>
         )}
 
-        {/* Usage bar */}
-        {user&&!isPro&&(
-          <div style={{textAlign:'center',marginTop:22}}>
-            <p style={{fontSize:12,color:'var(--dim)'}}>
-              {usage===0
-                ?<>🎁 <span style={{color:'var(--muted)'}}>1 analyse gratuite disponible</span></>
-                :<><span style={{color:'var(--muted)'}}>{usage} analyse(s) utilisée(s) · </span><span style={{color:'var(--blue)',cursor:'pointer'}} onClick={()=>setShowPW(true)}>Débloquer Pro →</span></>
-              }
-            </p>
+        {/* ── TAB: NEWS / ROADMAP ── */}
+        {activeTab==='news'&&(
+          <div className="g1 fu" style={{borderRadius:'var(--r)',padding:'24px'}}>
+            {roadmap
+              ?<RoadmapView content={roadmap}/>
+              :<div style={{textAlign:'center',padding:'32px',color:'var(--t3)',fontSize:13}}>Aucune mise à jour pour l'instant.</div>
+            }
           </div>
         )}
       </div>
 
       {/* ══ FOOTER ══ */}
-      <div style={{textAlign:'center',padding:'20px',borderTop:'1px solid var(--border)',marginTop:20}}>
-        <p style={{fontSize:11,color:'var(--dim)',marginBottom:8}}>
-          FlashSell.ai · Propulsé par Claude AI · {new Date().getFullYear()}
-        </p>
-        {/* Admin trigger discret — visible uniquement si admin */}
-        {isAdmin&&(
-          <button
-            onClick={()=>setShowAdmin(true)}
-            className="admin-trigger"
-            title="Dashboard Admin"
-          >
-            🛡️
-          </button>
-        )}
+      <div style={{textAlign:'center',padding:'18px',borderTop:'1px solid var(--b1)'}}>
+        <p style={{fontSize:11,color:'var(--t3)'}}>FlashSell.ai v2.0 · Claude Vision · {new Date().getFullYear()}</p>
       </div>
 
+      {/* Admin FAB discret (visible uniquement si admin) */}
+      {isAdmin&&(
+        <button className="admin-fab" onClick={()=>setShowAdmin(true)} title="Dashboard Admin">
+          🛡️
+        </button>
+      )}
+
       {/* ══ MODALS ══ */}
-      {showAuth  &&<AuthModal onClose={()=>setShowAuth(false)}/>}
-      {showPW    &&<PaywallModal userId={user?.id} userEmail={email} onClose={()=>setShowPW(false)} onUnlock={()=>setIsPro(true)}/>}
-      {showAdmin &&isAdmin&&<AdminPanel session={session} onClose={()=>setShowAdmin(false)}/>}
+      {showAuth&&<AuthModal onClose={()=>setShowAuth(false)}/>}
+      {showPW&&<PaywallModal userId={user?.id} userEmail={email} onClose={()=>setShowPW(false)} onUnlock={()=>setIsPro(true)}/>}
+      {showAdmin&&isAdmin&&(
+        <AdminPanel
+          session={session}
+          betaMode={betaMode}
+          onBetaChange={v=>{setBetaMode(v);}}
+          onClose={()=>setShowAdmin(false)}
+        />
+      )}
     </div>
   );
 }
